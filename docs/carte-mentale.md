@@ -1,8 +1,12 @@
 # Carte mentale — RPG Habitudes
 
 Copie en lecture seule de la carte interactive : https://claude.ai/artifact/MWuUdxYof8HyBYPSEKdmGV
-La carte fait foi ; ce fichier est régénéré avec `node tools/carte-export.mjs <dossier>` (55 nœuds).
+La carte fait foi ; ce fichier est régénéré avec `node tools/carte-export.mjs <dossier>` (59 nœuds).
 
+- **Échanges** · Module · En place — Pilotage du projet. Ajoute tes demandes sous « Pour Claude » : Claude les lit en début de session, les traite et répond sous « Réponses de Claude ».
+  - **Pour Claude** · Question · À explorer — Une demande par nœud : une idée à creuser, un bug, une priorité. Statut « Prévu » = à faire en priorité.
+  - **Réponses de Claude** · Mécanique · En place — Comptes rendus de session et réponses aux demandes, les plus récents en haut.
+    - **29/10 : carte = outil de pilotage** · Mécanique · En place — À partir de maintenant, chaque session commence par lire cette carte (demandes sous « Pour Claude », statuts, nouvelles idées) et se termine par la mise à jour des statuts et un compte rendu ici.
 - **Aujourd'hui** · Module · En place — Écran d'accueil mobile : habitudes par moment, danse, tâches du jour.
   - **Paliers min / normal / excellent** · Mécanique · En place — XP ×0,5 / ×1 / ×1,5. Le minimum compte comme réussi pour la Discipline.
   - **Mode minimum** · Mécanique · En place — Proposé quand Motivation < 30 : n'affiche que les paliers minimum.

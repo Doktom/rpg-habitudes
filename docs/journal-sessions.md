@@ -2,6 +2,12 @@
 
 Entrées les plus récentes en haut.
 
+## 2026-10-29 (suite) — La carte mentale devient l'outil de pilotage
+
+**Décision** : la carte mentale sert d'outil de pilotage et d'interface d'échange, en plus du chat.
+
+**Réalisé** : branche « Échanges » dans la carte, avec « Pour Claude » (demandes de l'utilisateur) et « Réponses de Claude » (comptes rendus). Règles de début et de fin de session ajoutées dans CLAUDE.md.
+
 ## 2026-10-29 (suite) — Carte mentale
 
 **Objectif** : un outil visuel pour construire et imaginer les modules et mécaniques.

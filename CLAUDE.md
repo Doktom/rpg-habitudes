@@ -4,7 +4,7 @@ Webapp perso de suivi d'habitudes, planification hebdo/mensuelle et projets au l
 
 ## Démarrer une session
 
-1. Lire l'entrée la plus récente de `docs/journal-sessions.md` (état, décisions, prochaine étape), puis `docs/cahier-des-charges.md`.
+1. Lire la carte mentale (voir « Carte mentale : outil de pilotage »), puis l'entrée la plus récente de `docs/journal-sessions.md` et `docs/cahier-des-charges.md`.
 2. `npm install` puis `npm test` (10 tests attendus au vert) et `npm run dev`.
 3. Si le doc partagé Claude Docs n'est pas accessible, `docs/cahier-des-charges.md` fait foi.
 
@@ -27,9 +27,13 @@ Questions encore ouvertes : nom de l'app et des stats, habitudes de trading dét
 - `docs/journal-sessions.md` : journal des sessions de travail avec Claude.
 - **Carte mentale** des modules et mécaniques : https://claude.ai/artifact/MWuUdxYof8HyBYPSEKdmGV (source : `tools/carte-mentale.html`). Les nœuds vivent dans la base de l'artifact, collection `nodes` (champs `label`, `parent`, `kind` module|mecanique|idee|question, `status` en-place|prevu|a-explorer|abandonne, `note`, `order`). Claude les lit et les écrit avec l'outil ArtifactData. `docs/carte-mentale.md` en est une copie lisible.
 
-## Carte mentale (à chaque session)
+## Carte mentale : outil de pilotage (à chaque session)
 
-- En début de session, lire la collection `nodes` : l'utilisateur y ajoute ses idées entre les sessions.
+La carte mentale est l'outil de pilotage du projet et l'interface d'échange avec l'utilisateur, en plus du chat. Les priorités et les idées s'y décident.
+
+- **Début de session** : lire toute la collection `nodes`. Traiter en priorité les nœuds sous « Pour Claude » (`x-pour-claude`) ; statut `prevu` = à faire en premier. Repérer aussi les nœuds nouveaux ou modifiés ailleurs (comparer avec `docs/carte-mentale.md`).
+- **Pendant** : quand une mécanique est développée ou décidée, passer son nœud en `en-place` ou `prevu` (ou le créer). Une demande traitée passe en `en-place` (ou `abandonne` avec la raison en note).
+- **Fin de session** : ajouter un nœud de compte rendu daté sous « Réponses de Claude » (`x-reponses`, le plus récent avec le plus petit `order`), qui répond aux demandes traitées.
 - Quand une mécanique est développée ou décidée, passer son nœud en `en-place` ou `prevu` (ou le créer).
 - En fin de session, régénérer la copie : ArtifactData `list` sur `nodes` avec `out_dir`, puis `node tools/carte-export.mjs <out_dir>/nodes`, et committer `docs/carte-mentale.md`.
 - Pour modifier la page elle-même : republier `tools/carte-mentale.html` sur la même URL (garder `capabilities: {db: {}}`).
