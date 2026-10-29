@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ConfirmButton from '#lib/components/ConfirmButton.svelte';
 	import { formatShort } from '#lib/dates.ts';
 	import { store, uid } from '#lib/store.svelte.ts';
 	import type { Campaign, CampaignStatus } from '#lib/types.ts';
@@ -123,15 +124,13 @@
 			<button class="btn text-xs" onclick={() => store.toggleCampaignDone(c)}>
 				{c.done ? 'Rouvrir' : 'Terminer la campagne'}
 			</button>
-			<button
-				class="btn text-xs"
-				onclick={() => {
-					if (confirm('Supprimer cette campagne ?')) {
-						store.removeCampaign(c.id);
-						selectedId = null;
-					}
-				}}>Supprimer</button
-			>
+			<ConfirmButton
+				label="Supprimer"
+				onconfirm={() => {
+					store.removeCampaign(c.id);
+					selectedId = null;
+				}}
+			/>
 		</div>
 	</div>
 

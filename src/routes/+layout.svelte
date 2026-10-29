@@ -7,17 +7,17 @@
 	let { children } = $props();
 
 	const nav = [
-		{ href: '/', label: "Aujourd'hui", icon: '☀' },
-		{ href: '/planning', label: 'Planning', icon: '▦' },
-		{ href: '/campagnes', label: 'Campagnes', icon: '⚑' },
-		{ href: '/personnage', label: 'Perso', icon: '♛' },
-		{ href: '/habitudes', label: 'Habitudes', icon: '↻' },
-		{ href: '/danse', label: 'Danse', icon: '♪' },
-		{ href: '/revue', label: 'Revue', icon: '✎' }
+		{ href: '#/', label: "Aujourd'hui", icon: '☀' },
+		{ href: '#/planning', label: 'Planning', icon: '▦' },
+		{ href: '#/campagnes', label: 'Campagnes', icon: '⚑' },
+		{ href: '#/personnage', label: 'Perso', icon: '♛' },
+		{ href: '#/habitudes', label: 'Habitudes', icon: '↻' },
+		{ href: '#/danse', label: 'Danse', icon: '♪' },
+		{ href: '#/revue', label: 'Revue', icon: '✎' }
 	];
 
-	const active = (href: string) =>
-		href === '/' ? page.url.pathname === '/' : page.url.pathname.startsWith(href);
+	// Routage par hash (#/planning…) pour fonctionner sur n'importe quel hébergement statique.
+	const active = (href: string) => page.route.id === href.slice(1);
 
 	onMount(() => store.rollover());
 </script>

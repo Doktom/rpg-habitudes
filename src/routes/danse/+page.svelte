@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ConfirmButton from '#lib/components/ConfirmButton.svelte';
 	import { addDays, formatLong, formatShort, range, today, WEEKDAYS } from '#lib/dates.ts';
 	import { onVacation, upcomingParties } from '#lib/engine/schedule.ts';
 	import { DANCE_LABEL, DANCE_STYLES } from '#lib/labels.ts';
@@ -65,7 +66,7 @@
 				</div>
 				<div class="flex gap-2">
 					<button class="btn text-xs" onclick={() => (classForm = clone(c))}>Modifier</button>
-					<button class="btn text-xs" onclick={() => confirm('Supprimer ce cours ?') && store.removeDanceClass(c.id)}>Supprimer</button>
+					<ConfirmButton label="Supprimer" onconfirm={() => store.removeDanceClass(c.id)} />
 				</div>
 			</div>
 		{:else}

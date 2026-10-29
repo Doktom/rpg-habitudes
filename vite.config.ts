@@ -7,7 +7,9 @@ export default defineConfig({
 	plugins: [
 		tailwindcss(),
 		sveltekit({
-			adapter: adapter({ fallback: 'index.html' })
+			adapter: adapter({ fallback: 'index.html' }),
+			router: { type: 'hash' },
+			appDir: 'app' // les noms commençant par _ sont réservés par l'hébergement Artifact
 		})
 	],
 });

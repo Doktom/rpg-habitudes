@@ -141,7 +141,7 @@
 							{#if open[h.id]}
 								{#if routine.exercises.length === 0}
 									<p class="mt-2 text-xs text-zinc-500">
-										Aucun exercice pour l'instant : ajoute-les dans <a class="underline" href="/habitudes">Habitudes</a>.
+										Aucun exercice pour l'instant : ajoute-les dans <a class="underline" href="#/habitudes">Habitudes</a>.
 									</p>
 								{:else}
 									<ul class="mt-2 flex flex-col gap-1">

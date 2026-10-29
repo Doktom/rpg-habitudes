@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ConfirmButton from '#lib/components/ConfirmButton.svelte';
 	import Gauges from '#lib/components/Gauges.svelte';
 	import { formatShort, today } from '#lib/dates.ts';
 	import { discipline, gaugeValue, sortedEvents, totalXp, xpByDomain } from '#lib/engine/progress.ts';
@@ -12,6 +13,18 @@
 	const recent = $derived(sortedEvents(data.events).reverse().slice(0, 15));
 
 	let fileInput = $state<HTMLInputElement>();
+	let message = $state('');
+	let jsonShown = $state(false);
+
+	async function copy() {
+		try {
+			await navigator.clipboard.writeText(store.exportJson());
+			message = 'Données copiées dans le presse-papiers.';
+		} catch {
+			jsonShown = true;
+			message = 'Copie impossible ici : sélectionne le texte ci-dessous et copie-le.';
+		}
+	}
 
 	function download() {
 		const blob = new Blob([store.exportJson()], { type: 'application/json' });
@@ -27,8 +40,9 @@
 		if (!file) return;
 		try {
 			store.importJson(await file.text());
+			message = 'Import réussi.';
 		} catch (err) {
-			alert('Import impossible : ' + (err as Error).message);
+			message = 'Import impossible : ' + (err as Error).message;
 		}
 	}
 </script>
@@ -106,11 +120,12 @@
 <h2 class="h2 mb-2">Données</h2>
 <div class="card flex flex-wrap gap-2">
 	<button class="btn" onclick={download}>Exporter (JSON)</button>
+	<button class="btn" onclick={copy}>Copier le JSON</button>
 	<button class="btn" onclick={() => fileInput?.click()}>Importer</button>
 	<input bind:this={fileInput} type="file" accept="application/json" class="hidden" onchange={upload} />
-	<button class="btn" onclick={() => confirm('Tout effacer et repartir de la configuration de départ ?') && store.reset()}>
-		Réinitialiser
-	</button>
+	<ConfirmButton class="btn" label="Réinitialiser" confirmLabel="Tout effacer ?" onconfirm={() => store.reset()} />
+	{#if message}<p class="w-full text-sm text-zinc-700">{message}</p>{/if}
+	{#if jsonShown}<textarea class="input h-40 w-full font-mono text-xs" readonly value={store.exportJson()}></textarea>{/if}
 	<p class="w-full text-xs text-zinc-500">
 		V0 : les données vivent dans ce navigateur uniquement. Exporte-les régulièrement en attendant la synchro Supabase.
 	</p>

@@ -7,6 +7,12 @@ Statut : **V0 prototype**. Les données sont stockées dans le navigateur (local
 - [Cahier des charges](docs/cahier-des-charges.md)
 - [Journal des sessions](docs/journal-sessions.md)
 
+## Lien de test
+
+Version en ligne (privée, à partager depuis le menu Partager de la page) : https://claude.ai/artifact/DQ5iFZruSWtsrguVE7pd4x
+
+Pour la mettre à jour : `npm run build:artifact`, puis republier `build/artifact.html` et le dossier `build/app/` sur ce même lien (Claude le fait en fin de session).
+
 ## Lancer en local
 
 Prérequis : Node.js 22 ou plus récent.
@@ -45,4 +51,4 @@ src/lib/seed.ts          configuration de départ
 src/routes/              un dossier par écran
 ```
 
-Stack : SvelteKit 3 (Svelte 5), Tailwind 4, Vitest. La config SvelteKit est dans `vite.config.ts` et les imports internes passent par `#lib/...` (subpath imports de `package.json`).
+Stack : SvelteKit 3 (Svelte 5), Tailwind 4, Vitest. La config SvelteKit est dans `vite.config.ts` et les imports internes passent par `#lib/...` (subpath imports de `package.json`). Le routage se fait par hash (`#/planning`) pour fonctionner sur n'importe quel hébergement statique.

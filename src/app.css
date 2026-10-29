@@ -20,3 +20,11 @@
 		@apply text-lg font-semibold;
 	}
 }
+
+:root {
+	color-scheme: light;
+}
+
+body {
+	@apply bg-zinc-50 text-zinc-900;
+}

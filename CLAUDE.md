@@ -28,6 +28,12 @@ Webapp perso de suivi d'habitudes, planification hebdo/mensuelle et projets au l
 - SvelteKit 3 : pas de `svelte.config.js`, la config passe par `sveltekit({...})` dans `vite.config.ts`. Imports internes avec `#lib/...` et l'extension explicite (`#lib/dates.ts`, `#lib/store.svelte.ts`).
 - Les règles de jeu vivent dans `src/lib/engine/` (fonctions pures, testées) et les constantes dans `src/lib/config.ts`. XP et jauges sont recalculées depuis le journal `events` : toute action ajoute ou retire des événements, jamais de compteur modifié directement.
 
+- Routage par hash (`router: { type: 'hash' }`) et `appDir: 'app'` : liens internes en `#/...`. Pas de `confirm()`/`alert()` (bloqués dans la page de test), utiliser `ConfirmButton`.
+
 ## Commandes
 
-`npm run dev` · `npm test` · `npm run check` · `npm run build`
+`npm run dev` · `npm test` · `npm run check` · `npm run build` · `npm run build:artifact`
+
+## Lien de test
+
+https://claude.ai/artifact/DQ5iFZruSWtsrguVE7pd4x — à republier en fin de session après `npm run build:artifact` : publier `build/artifact.html` sur cette URL avec tous les fichiers de `build/app/` (chemins publiés `app/...`).

@@ -2,6 +2,24 @@
 
 Entrées les plus récentes en haut.
 
+## 2026-10-29 (suite) — Mise en ligne de test
+
+**Objectif** : avoir un lien pour tester l'app dans le navigateur.
+
+**Décisions**
+
+- GitHub Pages écarté pour l'instant : il rendrait le site public, à décider explicitement plus tard.
+- Lien de test privé hébergé sur claude.ai (partageable depuis le menu Partager) : https://claude.ai/artifact/DQ5iFZruSWtsrguVE7pd4x
+- Routage par hash et dossier `app/` pour fonctionner sur n'importe quel hébergement statique.
+
+**Réalisé**
+
+- Script `npm run build:artifact` qui prépare la page publiée.
+- Remplacement des `confirm()`/`alert()` par une confirmation dans la page ; ajout d'un bouton « Copier le JSON » (le téléchargement de fichier est bloqué sur le lien de test).
+- Vérifié en local avec la page publiée telle quelle ; pas pu ouvrir le lien claude.ai depuis le navigateur de Claude (non connecté).
+
+**Prochaine étape** : tester le lien sur téléphone et PC, remonter les retours.
+
 ## 2026-10-29 (suite) — V0 prototype
 
 **Objectif** : ajouter le paramétrage danse au cahier des charges et développer une première version utilisable.
