@@ -37,7 +37,7 @@ Chaque domaine de vie est une stat RPG ; certaines ont des sous-compétences ave
 | Projets perso | Créativité | Un par campagne (ex. Maison) | Sessions de travail, étapes de campagne |
 | Bien-être (optionnel) | Sérénité | — | Sommeil, méditation, lecture |
 
-Une habitude ou une quête peut alimenter plusieurs stats avec une répartition (ex. réveil musculaire : 70 % Souplesse, 30 % Force). L'utilisateur peut créer, renommer ou archiver des domaines.
+Une habitude ou une quête peut alimenter plusieurs stats avec une répartition (ex. réveil musculaire : 70 % Souplesse, 30 % Force). L'utilisateur peut créer, renommer ou archiver des domaines. **V0** : une catégorie (nom, nom de stat, couleur) se crée directement depuis le formulaire d'une habitude, via « + Nouvelle catégorie (stat) », et devient la stat principale de l'habitude.
 
 ## XP et niveaux
 
@@ -159,6 +159,7 @@ Une campagne peut être mise **en pause** : l'Inspiration cesse alors de baisser
 Deux couches complémentaires : des listes souples sans horaire, et un agenda horaire où l'on glisse ce qu'on veut caser.
 
 - **Listes** : Aujourd'hui, Cette semaine, Ce mois-ci, Un jour. Une tâche peut venir d'une quête ou être libre.
+- **Écran « À faire »** (V0) : todo list dédiée. Ajout rapide d'une tâche avec sa liste et une catégorie facultative (la stat qui reçoit l'XP, si la tâche n'est pas liée à une campagne), déplacement entre listes, filtre par catégorie, tâches terminées repliées.
 - **Agenda** : vues jour et semaine (PC), jour (mobile). Créneaux ponctuels ou récurrents (ex. cours de salsa le mardi à 20 h).
 - **Glisser-déposer** d'une tâche de liste vers un créneau ; elle reste liée à sa quête.
 - Les habitudes avec créneau par défaut apparaissent dans l'agenda ; les autres restent dans la liste du jour.
@@ -196,11 +197,12 @@ Sur iPhone, les notifications nécessitent d'installer l'app sur l'écran d'accu
 
 ## Écrans
 
-Six écrans principaux ; l'écran Aujourd'hui est la page d'accueil sur mobile.
+Sept écrans principaux ; l'écran Aujourd'hui est la page d'accueil sur mobile.
 
 | Écran | Contenu | Usage principal |
 | --- | --- | --- |
 | Aujourd'hui | Habitudes du jour par moment (matin, journée, soir), tâches du jour, jauges, XP du jour | Mobile, plusieurs fois par jour |
+| À faire | Todo list : listes (aujourd'hui, semaine, mois, un jour), catégories, terminées | Les deux |
 | Planning | Listes + agenda jour/semaine/mois, glisser-déposer | PC surtout |
 | Personnage | Niveau, stats et sous-compétences, jauges, hauts faits, séries | Les deux |
 | Campagnes | Liste des campagnes, carte de progression, chapitres, quêtes | PC surtout |

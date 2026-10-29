@@ -13,6 +13,9 @@
 	let routineFor = $state<Habit | null>(null);
 	let exercises = $state<Exercise[]>([]);
 	let sessionsText = $state('');
+	let newCat = $state<{ name: string; stat: string; color: string } | null>(null);
+
+	const CAT_COLORS = ['#db2777', '#ea580c', '#0d9488', '#2563eb', '#ca8a04', '#16a34a', '#7c3aed', '#64748b'];
 
 	const clone = <T,>(x: T): T => JSON.parse(JSON.stringify(x));
 	const domainName = (id: string) => domains.find((d) => d.id === id)?.name ?? id;
@@ -66,6 +69,16 @@
 		if (!form || form.domains.length < 2) return;
 		form.domains[0].weight = w;
 		form.domains[1].weight = 100 - w;
+	}
+
+	function addCategory() {
+		if (!form || !newCat || !newCat.name.trim()) return;
+		const name = newCat.name.trim();
+		const slug = name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-');
+		const id = `${slug}-${uid().slice(0, 4)}`;
+		store.saveDomain({ id, name, stat: newCat.stat.trim() || name, color: newCat.color });
+		form.domains[0].domainId = id;
+		newCat = null;
 	}
 
 	function save(e: SubmitEvent) {
@@ -185,6 +198,40 @@
 				<option value="">Aucune</option>
 				{#each domains as d (d.id)}<option value={d.id}>{d.name}</option>{/each}
 			</select>
+		</div>
+		<div class="sm:col-span-3">
+			{#if newCat}
+				<div class="grid gap-2 rounded-lg border border-dashed border-zinc-300 p-3 sm:grid-cols-4">
+					<div>
+						<label class="label" for="c-name">Nom de la catégorie</label>
+						<input id="c-name" class="input" bind:value={newCat.name} placeholder="ex. Cuisine" />
+					</div>
+					<div>
+						<label class="label" for="c-stat">Nom de la stat</label>
+						<input id="c-stat" class="input" bind:value={newCat.stat} placeholder="optionnel, ex. Gourmandise" />
+					</div>
+					<div>
+						<span class="label">Couleur</span>
+						<div class="flex flex-wrap gap-1">
+							{#each CAT_COLORS as c (c)}
+								<button
+									type="button"
+									aria-label="Couleur {c}"
+									class="h-6 w-6 rounded-full border-2 {newCat.color === c ? 'border-zinc-900' : 'border-transparent'}"
+									style="background:{c}"
+									onclick={() => newCat && (newCat.color = c)}
+								></button>
+							{/each}
+						</div>
+					</div>
+					<div class="flex items-end gap-2">
+						<button type="button" class="btn btn-primary" onclick={addCategory}>Créer</button>
+						<button type="button" class="btn" onclick={() => (newCat = null)}>Annuler</button>
+					</div>
+				</div>
+			{:else}
+				<button type="button" class="btn text-xs" onclick={() => (newCat = { name: '', stat: '', color: CAT_COLORS[0] })}>+ Nouvelle catégorie (stat)</button>
+			{/if}
 		</div>
 		<div>
 			{#if form.domains.length > 1}

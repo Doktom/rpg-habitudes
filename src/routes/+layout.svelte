@@ -8,6 +8,7 @@
 
 	const nav = [
 		{ href: '#/', label: "Aujourd'hui", icon: '☀' },
+		{ href: '#/taches', label: 'À faire', icon: '☑' },
 		{ href: '#/planning', label: 'Planning', icon: '▦' },
 		{ href: '#/campagnes', label: 'Campagnes', icon: '⚑' },
 		{ href: '#/personnage', label: 'Perso', icon: '♛' },

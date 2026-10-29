@@ -141,6 +141,7 @@ export interface Task {
 	start?: Time;
 	end?: Time;
 	questId?: string;
+	domainId?: string; // catégorie (stat) qui reçoit l'XP
 	done?: ISODate;
 }
 

@@ -9,6 +9,7 @@ import type {
 	DanceClass,
 	DanceParty,
 	DanceStyle,
+	Domain,
 	Exercise,
 	Habit,
 	HabitKind,
@@ -133,6 +134,15 @@ class Store {
 	archiveHabit(id: string, archived = true) {
 		const h = this.data.habits.find((x) => x.id === id);
 		if (h) h.archived = archived;
+		this.persist();
+	}
+
+	// --- Catégories (stats) ---
+
+	saveDomain(d: Domain) {
+		const i = this.data.domains.findIndex((x) => x.id === d.id);
+		if (i >= 0) this.data.domains[i] = d;
+		else this.data.domains.push(d);
 		this.persist();
 	}
 
@@ -308,7 +318,7 @@ class Store {
 				date,
 				source: `task:${task.id}`,
 				label: `Tâche : ${task.title}`,
-				xp: [{ domainId: campaign?.domainId ?? '', amount: XP_REWARDS.task }],
+				xp: [{ domainId: campaign?.domainId ?? task.domainId ?? '', amount: XP_REWARDS.task }],
 				campaignId: campaign?.id
 			});
 		}
