@@ -9,7 +9,9 @@ export default defineConfig({
 		sveltekit({
 			adapter: adapter({ fallback: 'index.html' }),
 			router: { type: 'hash' },
-			appDir: 'app' // les noms commençant par _ sont réservés par l'hébergement Artifact
+			appDir: 'app', // les noms commençant par _ sont réservés par l'hébergement Artifact
+			// GitHub Pages sert le site sous /rpg-habitudes : BASE_PATH est défini par le workflow de déploiement
+			paths: { base: (process.env.BASE_PATH ?? '') as '' | `/${string}` }
 		})
 	],
 });
