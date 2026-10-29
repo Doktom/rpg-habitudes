@@ -2,6 +2,24 @@
 
 Entrées les plus récentes en haut.
 
+## 2026-10-29 (suite) — Carte mentale
+
+**Objectif** : un outil visuel pour construire et imaginer les modules et mécaniques.
+
+**Décisions**
+
+- Carte mentale interactive hébergée sur claude.ai (privée), avec base de données partagée : l'utilisateur l'édite, Claude la lit et l'écrit d'une session à l'autre.
+- Statuts : en place, prévu, à explorer, abandonné. Types : module, mécanique, idée, question.
+- Copie lisible versionnée dans `docs/carte-mentale.md`.
+
+**Réalisé**
+
+- Page `tools/carte-mentale.html` : arbre horizontal, zoom et déplacement, glisser un nœud sur un autre pour le rattacher, replier les branches, filtres par statut, recherche, raccourcis clavier, export Markdown.
+- Carte remplie avec l'état du projet (55 nœuds), dont 4 idées de mécaniques suggérées à trier : combos entre habitudes, défi de la semaine, titres de personnage, bonus d'équilibre.
+- Script `tools/carte-export.mjs` et règles dans CLAUDE.md.
+
+**Prochaine étape** : l'utilisateur trie les idées et en ajoute ; la session suivante part de la carte pour choisir quoi développer.
+
 ## 2026-10-29 (suite) — GitHub Pages
 
 **Décisions** : le dépôt devient public (Pages n'est pas disponible sur un dépôt privé avec le compte gratuit) ; le site est déployé automatiquement à chaque push.

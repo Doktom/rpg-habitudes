@@ -24,6 +24,18 @@
         "build"
       ],
       "port": 5180
+    },
+    {
+      "name": "carte",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "5181",
+        "--directory",
+        "tools"
+      ],
+      "port": 5181
     }
   ]
 }

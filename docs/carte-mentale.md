@@ -1,0 +1,59 @@
+# Carte mentale — RPG Habitudes
+
+Copie en lecture seule de la carte interactive : https://claude.ai/artifact/MWuUdxYof8HyBYPSEKdmGV
+La carte fait foi ; ce fichier est régénéré avec `node tools/carte-export.mjs <dossier>` (55 nœuds).
+
+- **Aujourd'hui** · Module · En place — Écran d'accueil mobile : habitudes par moment, danse, tâches du jour.
+  - **Paliers min / normal / excellent** · Mécanique · En place — XP ×0,5 / ×1 / ×1,5. Le minimum compte comme réussi pour la Discipline.
+  - **Mode minimum** · Mécanique · En place — Proposé quand Motivation < 30 : n'affiche que les paliers minimum.
+  - **Jour de repos** · Mécanique · En place — Neutre pour les trois jauges.
+- **Habitudes & routines** · Module · En place
+  - **Obligatoire / bonus** · Mécanique · En place — Bonus : gagne XP et Motivation, ne coûte jamais rien.
+  - **Fréquences souples** · Mécanique · En place — Quotidienne, X fois par semaine, ou jours fixes.
+  - **Routines versionnées** · Mécanique · En place — Réveil musculaire, kiné matin et soir. Exercices à saisir au fil de l'eau.
+  - **Mode guidé avec minuteur** · Mécanique · Prévu — V2 : enchaîne les exercices d'une routine.
+  - **Programme salle 3x / semaine** · Mécanique · En place — Séances types A / B / C.
+    - **Intégration de l'app salle** · Mécanique · Prévu — Recevoir les séances terminées, records = hauts faits. Stack de l'app à préciser.
+- **Danse** · Module · En place
+  - **Cours fixes hebdo** · Mécanique · En place — Même horaire chaque semaine.
+  - **Vacances & annulations** · Mécanique · En place — Cours suspendus sans effet sur les jauges.
+  - **Soirées à l'avance** · Mécanique · En place — Comptent comme bonus.
+  - **Salsa / Bachata / Kizomba** · Mécanique · En place — Sous-compétences de la stat Rythme, chacune avec son niveau.
+- **Moteur RPG** · Module · En place — On ne perd jamais d'XP ni de niveau. Tout est recalculé depuis le journal d'événements.
+  - **XP & niveaux** · Mécanique · En place — XP = base × palier × (1 + Discipline/100). Niveau n→n+1 = 100 × n^1,5.
+  - **Stats & sous-compétences** · Mécanique · En place — Rythme, Force, Souplesse, Stratégie, Créativité, Sérénité (noms provisoires).
+  - **Jauge Discipline** · Mécanique · En place — Réussite pondérée sur 28 jours. Multiplicateur d'XP ×1 à ×2.
+  - **Jauge Motivation** · Mécanique · En place — +5 obligatoire, +3 bonus, +10 quête, −8 raté. Revient vers 50.
+  - **Jauge Inspiration** · Mécanique · En place — +25 revue, +15 chapitre, +30 campagne ; −2/jour par campagne au point mort.
+    - **Élan** · Mécanique · Prévu — À 80 d'Inspiration : dépense 50 pour doubler l'XP d'une quête 24 h ou débloquer un défi.
+  - **Hauts faits** · Mécanique · Prévu — Campagne terminée, records, séries longues.
+- **Campagnes** · Module · En place — Fil rouge → chapitres → quêtes → tâches.
+  - **Chapitres verrouillés** · Mécanique · En place — Le chapitre suivant s'ouvre quand le précédent est terminé.
+  - **Quêtes & boss** · Mécanique · En place — Boss = tâche redoutée, gros bonus.
+  - **Pause de campagne** · Mécanique · En place — L'Inspiration ne baisse plus pour elle.
+  - **Carte de progression visuelle** · Mécanique · Prévu — Chapitres affichés comme un parcours.
+  - **Arcs mensuels** · Mécanique · Prévu — Thème du mois qui regroupe des quêtes de plusieurs campagnes.
+  - **Campagne Trading** · Mécanique · En place — Stratégie → backtest → démo → réel avec un plan. On récompense le processus, jamais le P&L.
+  - **Campagne Maison** · Mécanique · En place — Aménagement et déco, une pièce par chapitre, par vagues.
+- **Planning** · Module · En place
+  - **Listes souples** · Mécanique · En place — Aujourd'hui, semaine, mois, un jour.
+  - **Agenda semaine (glisser-déposer)** · Mécanique · En place
+  - **Vue mois** · Mécanique · Prévu
+- **Revue** · Module · En place
+  - **Revue hebdo guidée** · Mécanique · En place — Bilan, 3 questions, 3 priorités. +50 XP, +25 Inspiration.
+  - **Revue mensuelle** · Mécanique · Prévu — Point sur chaque campagne, choix de l'arc du mois.
+- **Plateforme** · Module · Prévu
+  - **Comptes & synchro (Supabase)** · Mécanique · Prévu — Remplace le stockage navigateur ; mêmes données sur téléphone et PC.
+  - **PWA installable** · Mécanique · Prévu
+  - **Notifications** · Mécanique · Prévu — Rappels d'habitudes, revue du dimanche, alertes douces.
+  - **Habillage graphique / avatar** · Mécanique · Prévu — Après la phase sobre.
+- **Questions ouvertes** · Question · À explorer
+  - **Nom de l'app et des stats** · Question · À explorer
+  - **Habitudes de trading détaillées** · Question · À explorer — Lesquelles, quels jours ?
+  - **Chapitres réels Trading et Maison** · Question · À explorer
+  - **Stack de l'app salle** · Question · À explorer — Pour préparer l'intégration.
+- **Idées à explorer** · Idée · À explorer — Pistes suggérées par Claude pour lancer la réflexion : à garder, modifier ou supprimer.
+  - **Combos entre habitudes** · Idée · À explorer — Ex. kiné matin + kiné soir le même jour = petit bonus de Motivation.
+  - **Défi de la semaine** · Idée · À explorer — Un défi tiré au sort pendant la revue hebdo (nouvelle figure en danse, séance de plus…), +Inspiration.
+  - **Titres de personnage** · Idée · À explorer — Titres débloqués par paliers de stats (ex. « Danseur polyvalent » quand les 3 danses dépassent le niveau 5).
+  - **Bonus d'équilibre** · Idée · À explorer — Petit bonus quand aucune stat n'est négligée sur la semaine.

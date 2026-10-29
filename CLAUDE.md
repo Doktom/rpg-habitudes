@@ -25,6 +25,14 @@ Questions encore ouvertes : nom de l'app et des stats, habitudes de trading dét
 - `docs/cahier-des-charges.md` : cahier des charges, source de vérité du produit.
 - Doc partagé (Claude Docs) : https://claude.ai/artifact/C8zL86y6JnbN2dSHobDbAi — même contenu, version éditable et commentable.
 - `docs/journal-sessions.md` : journal des sessions de travail avec Claude.
+- **Carte mentale** des modules et mécaniques : https://claude.ai/artifact/MWuUdxYof8HyBYPSEKdmGV (source : `tools/carte-mentale.html`). Les nœuds vivent dans la base de l'artifact, collection `nodes` (champs `label`, `parent`, `kind` module|mecanique|idee|question, `status` en-place|prevu|a-explorer|abandonne, `note`, `order`). Claude les lit et les écrit avec l'outil ArtifactData. `docs/carte-mentale.md` en est une copie lisible.
+
+## Carte mentale (à chaque session)
+
+- En début de session, lire la collection `nodes` : l'utilisateur y ajoute ses idées entre les sessions.
+- Quand une mécanique est développée ou décidée, passer son nœud en `en-place` ou `prevu` (ou le créer).
+- En fin de session, régénérer la copie : ArtifactData `list` sur `nodes` avec `out_dir`, puis `node tools/carte-export.mjs <out_dir>/nodes`, et committer `docs/carte-mentale.md`.
+- Pour modifier la page elle-même : republier `tools/carte-mentale.html` sur la même URL (garder `capabilities: {db: {}}`).
 
 ## Règles systématiques (à chaque session)
 
