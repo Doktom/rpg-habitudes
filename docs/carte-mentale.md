@@ -1,7 +1,7 @@
 # Carte mentale — RPG Habitudes
 
-Copie en lecture seule de la carte interactive : https://claude.ai/artifact/MWuUdxYof8HyBYPSEKdmGV
-La carte fait foi ; ce fichier est régénéré avec `node tools/carte-export.mjs <dossier>` (59 nœuds).
+Copie en lecture seule de la carte interactive : https://claude.ai/artifact/Bq2ySz5W8oPtYHMQpmxQz9
+La carte fait foi ; ce fichier est régénéré avec `node tools/carte-export.mjs <dossier>` (58 nœuds).
 
 - **Échanges** · Module · En place — Pilotage du projet. Ajoute tes demandes sous « Pour Claude » : Claude les lit en début de session, les traite et répond sous « Réponses de Claude ».
   - **Pour Claude** · Question · À explorer — Une demande par nœud : une idée à creuser, un bug, une priorité. Statut « Prévu » = à faire en priorité.

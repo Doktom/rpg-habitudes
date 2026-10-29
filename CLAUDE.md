@@ -25,7 +25,7 @@ Questions encore ouvertes : nom de l'app et des stats, habitudes de trading dét
 - `docs/cahier-des-charges.md` : cahier des charges, source de vérité du produit.
 - Doc partagé (Claude Docs) : https://claude.ai/artifact/C8zL86y6JnbN2dSHobDbAi — même contenu, version éditable et commentable.
 - `docs/journal-sessions.md` : journal des sessions de travail avec Claude.
-- **Carte mentale** des modules et mécaniques : https://claude.ai/artifact/MWuUdxYof8HyBYPSEKdmGV (source : `tools/carte-mentale.html`). Les nœuds vivent dans la base de l'artifact, collection `nodes` (champs `label`, `parent`, `kind` module|mecanique|idee|question, `status` en-place|prevu|a-explorer|abandonne, `note`, `order`). Claude les lit et les écrit avec l'outil ArtifactData. `docs/carte-mentale.md` en est une copie lisible.
+- **Carte mentale** des modules et mécaniques : https://claude.ai/artifact/Bq2ySz5W8oPtYHMQpmxQz9 (source : `tools/carte-mentale.html`). Les nœuds vivent dans la base de l'artifact, collection `nodes` (champs `label`, `parent`, `kind` module|mecanique|idee|question, `status` en-place|prevu|a-explorer|abandonne, `note`, `order`). Claude les lit et les écrit avec l'outil ArtifactData. `docs/carte-mentale.md` en est une copie lisible.
 
 ## Carte mentale : outil de pilotage (à chaque session)
 

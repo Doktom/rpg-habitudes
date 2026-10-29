@@ -36,7 +36,7 @@ walk('root', 0);
 const root = nodes.get('root');
 const md = `# Carte mentale — ${root?.label ?? 'RPG Habitudes'}
 
-Copie en lecture seule de la carte interactive : https://claude.ai/artifact/MWuUdxYof8HyBYPSEKdmGV
+Copie en lecture seule de la carte interactive : https://claude.ai/artifact/Bq2ySz5W8oPtYHMQpmxQz9
 La carte fait foi ; ce fichier est régénéré avec \`node tools/carte-export.mjs <dossier>\` (${nodes.size} nœuds).
 
 ${lines.join('\n')}
