@@ -2,6 +2,12 @@
 
 Entrées les plus récentes en haut.
 
+## 2026-10-29 (suite) — GitHub Pages
+
+**Décisions** : le dépôt devient public (Pages n'est pas disponible sur un dépôt privé avec le compte gratuit) ; le site est déployé automatiquement à chaque push.
+
+**Réalisé** : workflow GitHub Actions (tests, build avec `BASE_PATH`, déploiement Pages) ; site vérifié en ligne sur https://doktom.github.io/rpg-habitudes/.
+
 ## 2026-10-29 (suite) — Mise en ligne de test
 
 **Objectif** : avoir un lien pour tester l'app dans le navigateur.

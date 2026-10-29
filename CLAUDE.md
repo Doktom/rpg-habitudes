@@ -34,6 +34,7 @@ Webapp perso de suivi d'habitudes, planification hebdo/mensuelle et projets au l
 
 `npm run dev` · `npm test` · `npm run check` · `npm run build` · `npm run build:artifact`
 
-## Lien de test
+## En ligne
 
-https://claude.ai/artifact/DQ5iFZruSWtsrguVE7pd4x — à republier en fin de session après `npm run build:artifact` : publier `build/artifact.html` sur cette URL avec tous les fichiers de `build/app/` (chemins publiés `app/...`).
+- Site public : https://doktom.github.io/rpg-habitudes/ — déployé automatiquement par GitHub Actions à chaque push sur `main` (le build reçoit `BASE_PATH=/rpg-habitudes`). Le dépôt est public : ne jamais y mettre de secrets ni de données personnelles.
+- Lien de test privé (optionnel) : https://claude.ai/artifact/DQ5iFZruSWtsrguVE7pd4x — republier `build/artifact.html` + `build/app/` (chemins `app/...`) après `npm run build:artifact`.

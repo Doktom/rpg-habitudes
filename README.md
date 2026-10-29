@@ -7,11 +7,11 @@ Statut : **V0 prototype**. Les données sont stockées dans le navigateur (local
 - [Cahier des charges](docs/cahier-des-charges.md)
 - [Journal des sessions](docs/journal-sessions.md)
 
-## Lien de test
+## En ligne
 
-Version en ligne (privée, à partager depuis le menu Partager de la page) : https://claude.ai/artifact/DQ5iFZruSWtsrguVE7pd4x
+**https://doktom.github.io/rpg-habitudes/** — redéployé automatiquement à chaque push sur `main` (workflow `.github/workflows/deploy.yml` : tests, build, GitHub Pages).
 
-Pour la mettre à jour : `npm run build:artifact`, puis republier `build/artifact.html` et le dossier `build/app/` sur ce même lien (Claude le fait en fin de session).
+Lien de test secondaire, privé : https://claude.ai/artifact/DQ5iFZruSWtsrguVE7pd4x (mis à jour à la main avec `npm run build:artifact`).
 
 ## Lancer en local
 
