@@ -134,6 +134,18 @@ export function seed(today: ISODate): AppData {
 		events: [],
 		restDays: [],
 		minimumModeDays: [],
-		lastProcessedDay: undefined
+		lastProcessedDay: undefined,
+		ship: { modules: {} },
+		skills: {},
+		trophies: {}
 	};
+}
+
+// Complète des données plus anciennes (importées ou déjà stockées) avec les champs ajoutés depuis.
+export function withDefaults(data: AppData): AppData {
+	data.ship ??= { modules: {} };
+	data.ship.modules ??= {};
+	data.skills ??= {};
+	data.trophies ??= {};
+	return data;
 }

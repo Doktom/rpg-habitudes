@@ -9,7 +9,7 @@ Une webapp perso (mobile + PC) qui réunit suivi d'habitudes, planification hebd
 L'app transforme la régularité en progression visible : chaque action nourrit un personnage, des stats et des projets au long cours.
 
 1. **On ne perd jamais d'XP ni de niveau.** Les conséquences portent sur l'élan (jauges, multiplicateur), jamais sur l'acquis.
-2. **Motivation plutôt que punition.** Pas de mort, pas de PV, pas d'économie pour l'instant.
+2. **Motivation plutôt que punition.** Pas de mort, pas de PV. Les matériaux du vaisseau ne se perdent jamais, ils se dépensent seulement quand on choisit une amélioration.
 3. **Anti tout-ou-rien.** Paliers minimum / normal / excellent, fréquences souples, jours de repos.
 4. **Récompenser le processus, pas le résultat.** Surtout pour le trading : on gamifie l'analyse et le respect du plan, jamais le P&L.
 5. **Sobre d'abord.** Interface épurée au lancement ; l'habillage graphique (avatar, illustrations) vient ensuite sans refonte.
@@ -56,7 +56,7 @@ XP = base \times palier \times (1 + D/100)
 | Événement | XP de base |
 | --- | --- |
 | Habitude ou routine | 10 / 20 / 40 selon difficulté |
-| Tâche planifiée terminée | 10 |
+| Tâche terminée | 10 / 20 / 40 selon son effort (facile par défaut), × Discipline |
 | Quête terminée | 50 à 200 (fixé à la création) |
 | Boss vaincu | 100 à 300 |
 | Chapitre de campagne terminé | 300 |
@@ -87,6 +87,16 @@ Trois jauges de 0 à 100 remplacent les points de vie : elles modulent la progre
 - **Élan** : consomme 50 d'Inspiration pour doubler l'XP d'une quête choisie pendant 24 h, ou débloquer un défi spécial.
 - **Jours de repos** posés à l'avance : neutres pour les trois jauges.
 - Les seuils et valeurs sont à calibrer après 2-3 semaines d'usage réel.
+
+## Univers, vaisseau et récompenses
+
+Toute action rapporte de l'XP **et** des matériaux (Alliage, Cellule, Cristal) selon sa difficulté. Les matériaux améliorent les quatre modules du **Sillage**, un vaisseau en orbite autour de Kronos dont la révolution de 7 jours reproduit la semaine : un secteur par jour, allumé quand les obligations sont faites, et une orbite bouclée à la revue hebdo qui verse du butin. Les niveaux du pilote donnent des points de compétence ; 19 trophées récompensent les jalons.
+
+Le détail (lore, tables de butin, coûts, effets, trophées) est dans `docs/univers.md`. Les noms sont provisoires. Le graphisme viendra dans une grosse mise à jour ultérieure.
+
+## Mode test
+
+Le mode test génère un scénario complet (habitudes, danse, tâches, campagnes avec quêtes et boss) et joue 4 semaines. Il vit dans son propre stockage : les vraies données ne sont jamais modifiées. Un bandeau permet ensuite de **valider tout aujourd'hui**, d'avancer d'**1 jour** ou d'**1 semaine** (les jours passés sont clôturés comme en vrai, avec leurs ratés), de **jouer 1 semaine** automatiquement, ou de quitter. Lancé depuis l'écran Personnage.
 
 ## Habitudes, routines et programmes
 
@@ -159,7 +169,8 @@ Une campagne peut être mise **en pause** : l'Inspiration cesse alors de baisser
 Deux couches complémentaires : des listes souples sans horaire, et un agenda horaire où l'on glisse ce qu'on veut caser.
 
 - **Listes** : Aujourd'hui, Cette semaine, Ce mois-ci, Un jour. Une tâche peut venir d'une quête ou être libre.
-- **Écran « À faire »** (V0) : todo list dédiée. Ajout rapide d'une tâche avec sa liste et une catégorie facultative (la stat qui reçoit l'XP, si la tâche n'est pas liée à une campagne), déplacement entre listes, filtre par catégorie, tâches terminées repliées.
+- **Écran « À faire »** (V0) : todo list dédiée. Ajout rapide d'une tâche avec sa liste, son effort et une catégorie facultative (la stat qui reçoit l'XP, si la tâche n'est pas liée à une campagne). Chaque tâche se détaille : note, effort (aperçu de la récompense), échéance, catégorie, sous-tâches. Filtre par catégorie, tâches terminées repliées.
+- **Todo du jour** : l'écran Aujourd'hui affiche les tâches planifiées ce jour-là, plus les tâches libres d'aujourd'hui, de la semaine et du mois, les tâches reportées et celles dont l'échéance est arrivée (badges « semaine », « mois », « reportée »). Les tâches « Un jour » n'y apparaissent pas.
 - **Agenda** : vues jour et semaine (PC), jour (mobile). Créneaux ponctuels ou récurrents (ex. cours de salsa le mardi à 20 h).
 - **Glisser-déposer** d'une tâche de liste vers un créneau ; elle reste liée à sa quête.
 - Les habitudes avec créneau par défaut apparaissent dans l'agenda ; les autres restent dans la liste du jour.
@@ -197,12 +208,13 @@ Sur iPhone, les notifications nécessitent d'installer l'app sur l'écran d'accu
 
 ## Écrans
 
-Sept écrans principaux ; l'écran Aujourd'hui est la page d'accueil sur mobile.
+Neuf écrans principaux ; l'écran Aujourd'hui est la page d'accueil sur mobile.
 
 | Écran | Contenu | Usage principal |
 | --- | --- | --- |
 | Aujourd'hui | Habitudes du jour par moment (matin, journée, soir), tâches du jour, jauges, XP du jour | Mobile, plusieurs fois par jour |
-| À faire | Todo list : listes (aujourd'hui, semaine, mois, un jour), catégories, terminées | Les deux |
+| À faire | Todo list : listes (aujourd'hui, semaine, mois, un jour), tâches détaillées, catégories, terminées | Les deux |
+| Vaisseau | Soute de matériaux, orbite de la semaine, modules, compétences du pilote, trophées | Les deux |
 | Planning | Listes + agenda jour/semaine/mois, glisser-déposer | PC surtout |
 | Personnage | Niveau, stats et sous-compétences, jauges, hauts faits, séries | Les deux |
 | Campagnes | Liste des campagnes, carte de progression, chapitres, quêtes | PC surtout |

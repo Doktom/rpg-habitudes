@@ -1,12 +1,14 @@
 <script lang="ts">
 	import Gauges from '#lib/components/Gauges.svelte';
+	import Orbit from '#lib/components/Orbit.svelte';
 	import TierButtons from '#lib/components/TierButtons.svelte';
 	import { GAUGES } from '#lib/config.ts';
-	import { addDays, formatLong, today } from '#lib/dates.ts';
+	import { addDays, formatLong, formatShort, today } from '#lib/dates.ts';
 	import { discipline, gaugeValue, totalXp } from '#lib/engine/progress.ts';
-	import { danceClassesOn, habitsForDay, logsInWeek, partiesOn, routineOn } from '#lib/engine/schedule.ts';
+	import { danceClassesOn, habitsForDay, logsInWeek, partiesOn, routineOn, tasksForDay } from '#lib/engine/schedule.ts';
+	import { orbit, sectorsLit } from '#lib/engine/ship.ts';
 	import { levelInfo } from '#lib/engine/xp.ts';
-	import { DANCE_LABEL, MOMENT_LABEL } from '#lib/labels.ts';
+	import { DANCE_LABEL, lootLabel, MOMENT_LABEL } from '#lib/labels.ts';
 	import { store, uid } from '#lib/store.svelte.ts';
 	import type { Habit, Moment } from '#lib/types.ts';
 
@@ -21,14 +23,14 @@
 	const inspiration = $derived(gaugeValue(data, 'inspiration'));
 	const level = $derived(levelInfo(totalXp(data)));
 	const xpDay = $derived(totalXp(data, date, date));
-	const dayEvents = $derived(data.events.filter((e) => e.date === date && e.xp?.length));
+	const dayEvents = $derived(data.events.filter((e) => e.date === date && (e.xp?.length || e.loot)));
+	const sectors = $derived(orbit(data, date, today()));
 
 	const habits = $derived(habitsForDay(data, date));
 	const classes = $derived(danceClassesOn(data, date));
 	const parties = $derived(partiesOn(data, date));
-	const tasks = $derived(
-		data.tasks.filter((t) => (t.date ? t.date === date : t.list === 'today' && isToday))
-	);
+	// Les tâches de la semaine et du mois non planifiées s'affichent aussi dans la journée courante.
+	const tasks = $derived(tasksForDay(data, date, today()));
 
 	const moments: Moment[] = ['morning', 'day', 'evening'];
 
@@ -72,6 +74,14 @@
 			Jour de repos
 		</button>
 	</div>
+</div>
+
+<div class="card mb-4">
+	<div class="mb-1 flex items-baseline justify-between text-xs text-zinc-500">
+		<span>Orbite de la semaine · {sectorsLit(sectors)}/7 secteurs allumés</span>
+		<a href="#/vaisseau" class="underline">Vaisseau</a>
+	</div>
+	<Orbit {sectors} current={date} compact />
 </div>
 
 <div class="card mb-4">
@@ -213,7 +223,12 @@
 		{#each tasks as t (t.id)}
 			<label class="flex items-center gap-2 text-sm">
 				<input type="checkbox" checked={!!t.done} onchange={() => store.toggleTask(t)} />
-				<span class={t.done ? 'text-zinc-400 line-through' : ''}>{t.title}</span>
+				<span class="min-w-0 flex-1 {t.done ? 'text-zinc-400 line-through' : ''}">{t.title}</span>
+				{#if !t.done && !t.date && t.list === 'week'}<span class="rounded bg-sky-50 px-1.5 text-[10px] text-sky-700">semaine</span>{/if}
+				{#if !t.done && !t.date && t.list === 'month'}<span class="rounded bg-violet-50 px-1.5 text-[10px] text-violet-700">mois</span>{/if}
+				{#if !t.done && t.date && t.date < date}<span class="rounded bg-orange-50 px-1.5 text-[10px] text-orange-700">reportée</span>{/if}
+				{#if !t.done && t.due}<span class="text-[10px] {t.due < date ? 'font-medium text-rose-600' : 'text-zinc-500'}">⏱ {formatShort(t.due)}</span>{/if}
+				{#if t.subtasks?.length}<span class="text-[10px] text-zinc-500">☰ {t.subtasks.filter((s) => s.done).length}/{t.subtasks.length}</span>{/if}
 				{#if t.start}<span class="text-xs text-zinc-500">{t.start}</span>{/if}
 			</label>
 		{:else}
@@ -223,6 +238,7 @@
 			<input class="input" placeholder="Ajouter une tâche…" bind:value={newTask} />
 			<button class="btn">Ajouter</button>
 		</form>
+		<a href="#/taches" class="text-xs text-zinc-500 underline">Détailler et organiser mes tâches</a>
 	</div>
 </section>
 
@@ -231,9 +247,12 @@
 		<h2 class="mb-2 text-sm font-semibold tracking-wide text-zinc-500 uppercase">Gains du jour</h2>
 		<ul class="card flex flex-col gap-1 text-sm">
 			{#each dayEvents as e (e.id)}
-				<li class="flex justify-between">
+				<li class="flex justify-between gap-2">
 					<span>{e.label}</span>
-					<span class="text-zinc-500">+{e.xp?.reduce((s, x) => s + x.amount, 0)} XP</span>
+					<span class="shrink-0 text-zinc-500">
+						{#if e.xp?.length}+{e.xp.reduce((s, x) => s + x.amount, 0)} XP{/if}
+						{#if e.loot}<span class="text-xs">{lootLabel(e.loot)}</span>{/if}
+					</span>
 				</li>
 			{/each}
 		</ul>

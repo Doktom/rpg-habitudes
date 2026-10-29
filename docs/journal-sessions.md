@@ -2,6 +2,24 @@
 
 Entrées les plus récentes en haut.
 
+## 2026-10-29 (nuit, suite) — Univers spatial, récompenses, mode test
+
+**Demandes** : détailler les tâches ; rendre visibles dans la todo du jour celles de la semaine et du mois ; faire récompenser toutes les tâches ; mécanique de trophées et de récompenses ; mode test avec simulation sur plusieurs semaines ; univers futuriste spatial avec un vaisseau qui orbite en 7 jours, avec XP, matériaux et compétences pour le faire évoluer.
+
+**Décisions**
+
+- Univers : le **Sillage** en orbite autour de **Kronos**. Une orbite = une semaine ; un secteur par jour, allumé quand les obligations sont faites ; l'amarrage au Havre (revue hebdo) boucle l'orbite et verse du butin. Détail dans `docs/univers.md`.
+- Trois matériaux (Alliage, Cellule, Cristal). Toute action (habitude, danse, tâche, quête, revue) rapporte de l'XP et du butin selon sa difficulté.
+- Quatre modules du vaisseau (Réacteur, Coque, Propulseurs, Antenne) et quatre compétences du pilote (1 point par niveau). 19 trophées.
+- Le principe « pas d'économie » du cahier est remplacé : les matériaux ne se perdent jamais, ils se dépensent sur une amélioration choisie.
+- Mode test dans un stockage séparé, avec une horloge simulée ; recharge de la page à chaque saut de date.
+
+**Réalisé** : tâches détaillées (note, effort, échéance, sous-tâches), todo du jour enrichie, écran Vaisseau, bandeau et scénario du mode test. Tests passés de 10 à 20, vérification de types au vert, build GitHub Pages au vert ; mode test essayé dans le navigateur (génération, amélioration d'un module, compétence, validation, saut d'une semaine).
+
+**Calibrage** : le scénario de test rapporte ~96 Alliage par semaine, trop pour les coûts de départ (tout le vaisseau en un mois) ; les coûts ont été multipliés par 2,5 pour viser environ 3 mois. À revoir après usage réel.
+
+**Pas fait** : équipage, carte de la galaxie, événements d'orbite, renommer ou archiver une catégorie, habillage graphique.
+
 ## 2026-10-29 (suite) — La carte mentale devient l'outil de pilotage
 
 **Décision** : la carte mentale sert d'outil de pilotage et d'interface d'échange, en plus du chat.

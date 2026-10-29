@@ -2,8 +2,8 @@ import { LEVEL_BASE, LEVEL_EXPONENT, TIER_FACTOR, XP_BASE } from '../config';
 import type { Difficulty, DomainShare, Tier } from '../types';
 
 // XP = base × palier × (1 + Discipline/100)
-export function actionXp(difficulty: Difficulty, tier: Tier, discipline: number): number {
-	return Math.round(XP_BASE[difficulty] * TIER_FACTOR[tier] * (1 + discipline / 100));
+export function actionXp(difficulty: Difficulty, tier: Tier, discipline: number, factor: number = TIER_FACTOR[tier]): number {
+	return Math.round(XP_BASE[difficulty] * factor * (1 + discipline / 100));
 }
 
 export function bonusXp(base: number, discipline: number): number {

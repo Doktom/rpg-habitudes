@@ -1,5 +1,6 @@
 import { GAUGES } from '../config';
 import { addDays, daysBetween, range, startOfWeek } from '../dates';
+import { missPenalty, pullRatio } from './effects';
 import type { AppData, Gauge, ISODate, ProgressEvent } from '../types';
 import { danceClassesOn, habitsForDay, isDueOn, isRestDay, logsInWeek } from './schedule';
 
@@ -99,6 +100,20 @@ export function discipline(data: AppData, asOf: ISODate): number {
 	return Math.round((100 * items.reduce((s, i) => s + i.weight * i.success, 0)) / total);
 }
 
+// Jours consécutifs où toutes les obligations ont été faites (les jours de repos ne cassent pas la série).
+export function perfectStreak(data: AppData, asOf: ISODate): number {
+	const first = data.habits.reduce((min, h) => (h.createdAt < min ? h.createdAt : min), asOf);
+	let streak = 0;
+	for (let date = asOf; date >= first; date = addDays(date, -1)) {
+		if (isRestDay(data, date)) continue;
+		const { expected, done } = obligationsOn(data, date);
+		if (expected === 0) continue;
+		if (done === expected) streak++;
+		else if (date !== asOf) break; // aujourd'hui peut encore être complété
+	}
+	return streak;
+}
+
 export function successRate(data: AppData, from: ISODate, to: ISODate): number {
 	let expected = 0;
 	let done = 0;
@@ -122,13 +137,13 @@ export function closeDay(data: AppData, date: ISODate): ProgressEvent | null {
 		let missed = expected - done;
 		if (new Date(date + 'T00:00:00Z').getUTCDay() === 0) missed += weeklyMisses(data, date);
 		if (missed > 0) {
-			motivation += missed * m.obligatoryMissed;
+			motivation += missed * missPenalty(data);
 			parts.push(`${missed} raté(s)`);
 		}
 	}
 
 	const current = gaugeValue(data, 'motivation', date) + motivation;
-	const pull = Math.round((m.dailyPullToward - current) * m.dailyPullRatio);
+	const pull = Math.round((m.dailyPullToward - current) * pullRatio(data));
 	motivation += pull;
 
 	for (const c of data.campaigns) {

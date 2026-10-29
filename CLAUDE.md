@@ -47,7 +47,8 @@ La carte mentale est l'outil de pilotage du projet et l'interface d'échange ave
 ## Principes produit à respecter
 
 - On ne perd jamais d'XP ni de niveau ; les conséquences portent sur les jauges.
-- Motivation plutôt que punition ; pas d'économie pour l'instant.
+- Motivation plutôt que punition. Les matériaux du vaisseau ne se perdent jamais : ils se dépensent seulement sur une amélioration choisie. Lore et mécaniques spatiales : `docs/univers.md`.
+- Mode test (écran Personnage) : stockage séparé, date simulée via `setClock` dans `src/lib/dates.ts`. Toujours l'utiliser pour essayer la progression avant de calibrer.
 - Trading : on récompense le processus, jamais le P&L.
 - Visuel sobre d'abord, graphisme ajouté plus tard sans refonte.
 

@@ -1,5 +1,5 @@
 import { addDays, inRange, startOfWeek, weekday } from '../dates';
-import type { AppData, DanceClass, DanceParty, Habit, ISODate, RoutineVersion } from '../types';
+import type { AppData, DanceClass, DanceParty, Habit, ISODate, RoutineVersion, Task } from '../types';
 
 export function isRestDay(data: AppData, date: ISODate): boolean {
 	return data.restDays.includes(date);
@@ -29,6 +29,18 @@ export function habitsForDay(data: AppData, date: ISODate): Habit[] {
 	return data.habits.filter(
 		(h) => isDueOn(h, date) || (h.frequency.type === 'weekly' && isActiveOn(h, date))
 	);
+}
+
+// Todo d'une journée : tâches planifiées ce jour-là ; le jour courant y ajoute les tâches libres
+// d'aujourd'hui / de la semaine / du mois, les reportées et les échéances arrivées.
+export function tasksForDay(data: AppData, date: ISODate, asOf: ISODate): Task[] {
+	return data.tasks.filter((t) => {
+		if (t.date === date || t.done === date) return true;
+		if (date !== asOf || t.done) return false;
+		if (t.date) return t.date < date; // planifiée plus tôt et non faite : reportée
+		if (t.due && t.due <= date) return true;
+		return t.list !== 'someday';
+	});
 }
 
 export function routineOn(habit: Habit, date: ISODate): RoutineVersion | undefined {

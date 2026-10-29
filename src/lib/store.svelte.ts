@@ -1,35 +1,65 @@
-import { DANCE_XP_DIFFICULTY, GAUGES, XP_REWARDS } from './config';
-import { addDays, today } from './dates';
+import { DANCE_XP_DIFFICULTY, GAUGES, LOOT_REWARDS, SKILL_MAX_LEVEL, XP_REWARDS } from './config';
+import { addDays, setClock, today } from './dates';
+import { inspirationBonus, moduleLevel, skillLevel, taskBonus, tierFactor, xpBonus } from './engine/effects';
 import { actionXp, bonusXp, splitXp } from './engine/xp';
 import { closeDay, daysToClose, discipline } from './engine/progress';
-import { seed } from './seed';
+import { addLoot, canAfford, lootFor, materials, negate, orbit, orbitReward, scaleLoot, sectorsLit, skillPoints, upgradeCost } from './engine/ship';
+import { newTrophies } from './engine/trophies';
+import { uid } from './id';
+import { seed, withDefaults } from './seed';
+import { autoPlay, buildScenario, validateDay } from './testmode';
+import { SHIP_MODULES, SKILLS } from './universe';
 import type {
 	AppData,
 	Campaign,
 	DanceClass,
 	DanceParty,
 	DanceStyle,
+	Difficulty,
 	Domain,
 	Exercise,
 	Habit,
 	HabitKind,
 	ISODate,
+	Loot,
+	ModuleId,
 	ProgressEvent,
 	Review,
+	SkillId,
 	Task,
 	Tier,
 	Vacation
 } from './types';
 
 // V0 : tout est stocké dans le navigateur (localStorage). La couche Supabase remplacera load/persist.
+// Le mode test a son propre stockage : les vraies données ne sont jamais touchées.
 const KEY = 'rpg-habitudes:v1';
+const TEST_KEY = 'rpg-habitudes:test-v1';
+const MODE_KEY = 'rpg-habitudes:mode';
 
-export const uid = () => crypto.randomUUID().slice(0, 8);
+export { uid };
 
-function load(): AppData {
+const storageKey = (test: boolean) => (test ? TEST_KEY : KEY);
+const reload = () => {
+	if (typeof location !== 'undefined') location.reload();
+};
+
+function readTestMode(): boolean {
 	try {
-		const raw = localStorage.getItem(KEY);
-		if (raw) return JSON.parse(raw) as AppData;
+		return localStorage.getItem(MODE_KEY) === 'test';
+	} catch {
+		return false;
+	}
+}
+
+function load(test: boolean): AppData {
+	try {
+		const raw = localStorage.getItem(storageKey(test));
+		if (raw) {
+			const data = withDefaults(JSON.parse(raw) as AppData);
+			if (test) setClock(data.testClock ?? null);
+			return data;
+		}
 	} catch {
 		// stockage indisponible ou corrompu : on repart du seed
 	}
@@ -37,19 +67,45 @@ function load(): AppData {
 	return { ...seed(t), lastProcessedDay: addDays(t, -1) };
 }
 
-class Store {
-	data = $state<AppData>(load());
+export class Store {
+	testMode = readTestMode();
+	data = $state<AppData>(load(this.testMode));
+	private suspended = 0;
 
 	persist() {
+		if (this.suspended) return;
+		this.evaluateTrophies();
+		this.save();
+	}
+
+	private save() {
 		try {
-			localStorage.setItem(KEY, JSON.stringify(this.data));
+			localStorage.setItem(storageKey(this.testMode), JSON.stringify(this.data));
 		} catch {
 			// navigation privée : les données restent en mémoire pour la session
 		}
 	}
 
+	// Regroupe plusieurs actions : une seule sauvegarde à la fin.
+	batch(fn: () => void) {
+		this.suspended++;
+		try {
+			fn();
+		} finally {
+			this.suspended--;
+		}
+		this.persist();
+	}
+
+	// Ajoute un événement au journal. Les bonus du vaisseau (XP, Inspiration) s'appliquent ici.
 	private event(e: Omit<ProgressEvent, 'id' | 'at'>) {
-		this.data.events.push({ id: uid(), at: new Date().toISOString(), ...e });
+		const mult = e.source.startsWith('trophy:') ? 1 : xpBonus(this.data);
+		const xp = e.xp?.map((x) => ({ ...x, amount: Math.round(x.amount * mult) }));
+		let gauge = e.gauge;
+		if (gauge?.inspiration && gauge.inspiration > 0)
+			gauge = { ...gauge, inspiration: Math.round(gauge.inspiration * inspirationBonus(this.data)) };
+		// L'heure sert seulement à ordonner les événements d'une même journée.
+		this.data.events.push({ id: uid(), at: `${e.date}T${new Date().toISOString().slice(11)}`, ...e, xp, gauge });
 	}
 
 	private dropEvents(source: string) {
@@ -94,13 +150,15 @@ class Store {
 		if (existing) this.unlog(existing.id);
 		const id = uid();
 		this.data.habitLogs.push({ id, habitId: habit.id, date, tier, ...extra });
-		const xp = actionXp(habit.difficulty, tier, discipline(this.data, date));
+		const factor = tierFactor(this.data, tier);
+		const xp = actionXp(habit.difficulty, tier, discipline(this.data, date), factor);
 		const m = GAUGES.motivation;
 		this.event({
 			date,
 			source: `habit:${id}`,
 			label: `${habit.name}${extra.session ? ' — ' + extra.session : ''}`,
 			xp: splitXp(xp, habit.domains),
+			loot: lootFor(habit.difficulty, factor),
 			gauge: { motivation: habit.kind === 'obligatory' ? m.obligatoryDone : m.bonusDone },
 			campaignId: habit.campaignId
 		});
@@ -198,13 +256,15 @@ class Store {
 		if (existing) this.unlogDance(existing.id);
 		const id = uid();
 		this.data.danceLogs.push({ id, refId, date, tier });
-		const xp = actionXp(DANCE_XP_DIFFICULTY, tier, discipline(this.data, date));
+		const factor = tierFactor(this.data, tier);
+		const xp = actionXp(DANCE_XP_DIFFICULTY, tier, discipline(this.data, date), factor);
 		const m = GAUGES.motivation;
 		this.event({
 			date,
 			source: `dance:${id}`,
 			label,
 			xp: splitXp(xp, styles.map((s) => ({ domainId: s, weight: 1 }))),
+			loot: lootFor(DANCE_XP_DIFFICULTY, factor),
 			gauge: { motivation: kind === 'obligatory' ? m.obligatoryDone : m.bonusDone }
 		});
 		this.persist();
@@ -250,6 +310,7 @@ class Store {
 				source: `quest:${quest.id}`,
 				label: `${quest.boss ? 'Boss vaincu' : 'Quête'} : ${quest.name}`,
 				xp: [{ domainId: campaign.domainId, amount: bonusXp(quest.xp, d) }],
+				loot: quest.boss ? LOOT_REWARDS.boss : LOOT_REWARDS.quest,
 				gauge: { motivation: GAUGES.motivation.questDone },
 				campaignId: campaign.id
 			});
@@ -260,6 +321,7 @@ class Store {
 					source: `chapter:${chapter.id}`,
 					label: `Chapitre terminé : ${chapter.name}`,
 					xp: [{ domainId: campaign.domainId, amount: bonusXp(XP_REWARDS.chapter, d) }],
+					loot: LOOT_REWARDS.chapter,
 					gauge: { inspiration: GAUGES.inspiration.chapterDone },
 					campaignId: campaign.id
 				});
@@ -282,6 +344,7 @@ class Store {
 				source: `campaign:${campaign.id}`,
 				label: `Campagne terminée : ${campaign.name}`,
 				xp: [{ domainId: campaign.domainId, amount: XP_REWARDS.campaign }],
+				loot: LOOT_REWARDS.campaign,
 				gauge: { inspiration: GAUGES.inspiration.campaignDone },
 				campaignId: campaign.id
 			});
@@ -304,6 +367,20 @@ class Store {
 		this.persist();
 	}
 
+	// XP de base d'une tâche (avant le bonus du Réacteur, appliqué à l'ajout au journal).
+	private taskXp(effort: Difficulty, date: ISODate) {
+		const base = actionXp(effort, 'normal', discipline(this.data, date), tierFactor(this.data, 'normal'));
+		return Math.round(base * taskBonus(this.data));
+	}
+
+	// Ce que rapporte une tâche selon son effort : sert à l'aperçu comme au calcul réel.
+	taskReward(effort: Difficulty = 'easy', date = today()): { xp: number; loot: Loot } {
+		return {
+			xp: Math.round(this.taskXp(effort, date) * xpBonus(this.data)),
+			loot: scaleLoot(lootFor(effort), taskBonus(this.data))
+		};
+	}
+
 	toggleTask(task: Task) {
 		if (task.done) {
 			task.done = undefined;
@@ -311,6 +388,7 @@ class Store {
 		} else {
 			const date = today();
 			task.done = date;
+			const effort = task.effort ?? 'easy';
 			const campaign = this.data.campaigns.find((c) =>
 				c.chapters.some((ch) => ch.quests.some((q) => q.id === task.questId))
 			);
@@ -318,7 +396,8 @@ class Store {
 				date,
 				source: `task:${task.id}`,
 				label: `Tâche : ${task.title}`,
-				xp: [{ domainId: campaign?.domainId ?? task.domainId ?? '', amount: XP_REWARDS.task }],
+				xp: [{ domainId: campaign?.domainId ?? task.domainId ?? '', amount: this.taskXp(effort, date) }],
+				loot: scaleLoot(lootFor(effort), taskBonus(this.data)),
 				campaignId: campaign?.id
 			});
 		}
@@ -329,14 +408,124 @@ class Store {
 
 	addReview(r: Review) {
 		this.data.reviews.push(r);
+		let loot = r.type === 'weekly' ? LOOT_REWARDS.weeklyReview : LOOT_REWARDS.monthlyReview;
+		let label = r.type === 'weekly' ? 'Revue hebdo' : 'Revue mensuelle';
+		if (r.type === 'weekly') {
+			// Amarrage au Havre : l'orbite de la semaine est bouclée et rapporte du butin.
+			const sectors = orbit(this.data, r.periodStart, today());
+			loot = addLoot(loot, orbitReward(this.data, sectors));
+			label = `Revue hebdo — orbite bouclée (${sectorsLit(sectors)}/7)`;
+		}
 		this.event({
 			date: r.createdAt,
 			source: `review:${r.id}`,
-			label: r.type === 'weekly' ? 'Revue hebdo' : 'Revue mensuelle',
+			label,
 			xp: [{ domainId: '', amount: r.type === 'weekly' ? XP_REWARDS.weeklyReview : XP_REWARDS.monthlyReview }],
+			loot,
 			gauge: { inspiration: GAUGES.inspiration.weeklyReview }
 		});
 		this.persist();
+	}
+
+	// --- Vaisseau, compétences, trophées ---
+
+	upgradeModule(id: ModuleId): boolean {
+		const cost = upgradeCost(this.data, id);
+		if (!cost || !canAfford(materials(this.data), cost)) return false;
+		const level = moduleLevel(this.data, id) + 1;
+		this.data.ship.modules[id] = level;
+		const def = SHIP_MODULES.find((m) => m.id === id)!;
+		this.event({ date: today(), source: `ship:${id}:${level}`, label: `Amélioration : ${def.name}, niveau ${level}`, loot: negate(cost) });
+		this.persist();
+		return true;
+	}
+
+	buySkill(id: SkillId): boolean {
+		const level = skillLevel(this.data, id);
+		if (skillPoints(this.data) < 1 || level >= SKILL_MAX_LEVEL) return false;
+		this.data.skills[id] = level + 1;
+		this.persist();
+		return true;
+	}
+
+	skillName(id: SkillId) {
+		return SKILLS.find((s) => s.id === id)?.name ?? id;
+	}
+
+	// Débloque les trophées dont la condition est remplie et verse leur récompense.
+	evaluateTrophies() {
+		const date = today();
+		for (const t of newTrophies(this.data, date)) {
+			this.data.trophies[t.id] = date;
+			this.event({
+				date,
+				source: `trophy:${t.id}`,
+				label: `Trophée : ${t.name}`,
+				xp: t.reward.xp ? [{ domainId: '', amount: t.reward.xp }] : undefined,
+				loot: t.reward.loot
+			});
+		}
+	}
+
+	// --- Mode test ---
+
+	hasTestData(): boolean {
+		try {
+			return !!localStorage.getItem(TEST_KEY);
+		} catch {
+			return false;
+		}
+	}
+
+	// Génère un scénario sur plusieurs semaines puis bascule l'app dessus.
+	startTestMode(weeks = 4) {
+		try {
+			localStorage.setItem(MODE_KEY, 'test');
+		} catch {
+			return;
+		}
+		this.testMode = true;
+		buildScenario(this, weeks);
+		reload();
+	}
+
+	resumeTestMode() {
+		try {
+			localStorage.setItem(MODE_KEY, 'test');
+		} catch {
+			return;
+		}
+		reload();
+	}
+
+	exitTestMode() {
+		try {
+			localStorage.removeItem(MODE_KEY);
+		} catch {
+			// rien à faire
+		}
+		setClock(null);
+		reload();
+	}
+
+	// Avance la date simulée ; les jours passés sont clôturés comme en vrai (obligations non faites = ratées).
+	advanceDays(n: number) {
+		const next = addDays(today(), n);
+		this.batch(() => {
+			setClock(next);
+			this.data.testClock = next;
+			this.rollover();
+		});
+		reload();
+	}
+
+	autoPlayDays(n: number) {
+		autoPlay(this, n);
+		reload();
+	}
+
+	validateToday() {
+		this.batch(() => validateDay(this));
 	}
 
 	// --- Données ---
@@ -348,7 +537,7 @@ class Store {
 	importJson(json: string) {
 		const parsed = JSON.parse(json) as AppData;
 		if (parsed.version !== 1 || !Array.isArray(parsed.habits)) throw new Error('Fichier non reconnu');
-		this.data = parsed;
+		this.data = withDefaults(parsed);
 		this.persist();
 	}
 

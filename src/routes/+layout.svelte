@@ -2,6 +2,7 @@
 	import '../app.css';
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
+	import TestBanner from '#lib/components/TestBanner.svelte';
 	import { store } from '#lib/store.svelte.ts';
 
 	let { children } = $props();
@@ -11,6 +12,7 @@
 		{ href: '#/taches', label: 'À faire', icon: '☑' },
 		{ href: '#/planning', label: 'Planning', icon: '▦' },
 		{ href: '#/campagnes', label: 'Campagnes', icon: '⚑' },
+		{ href: '#/vaisseau', label: 'Vaisseau', icon: '✦' },
 		{ href: '#/personnage', label: 'Perso', icon: '♛' },
 		{ href: '#/habitudes', label: 'Habitudes', icon: '↻' },
 		{ href: '#/danse', label: 'Danse', icon: '♪' },
@@ -22,6 +24,8 @@
 
 	onMount(() => store.rollover());
 </script>
+
+<TestBanner />
 
 <div class="min-h-screen md:flex">
 	<aside class="sticky top-0 hidden h-screen w-52 shrink-0 border-r border-zinc-200 bg-white p-4 md:block">

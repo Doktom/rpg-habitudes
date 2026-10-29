@@ -4,6 +4,7 @@
 	import { formatShort, today } from '#lib/dates.ts';
 	import { discipline, gaugeValue, sortedEvents, totalXp, xpByDomain } from '#lib/engine/progress.ts';
 	import { levelInfo } from '#lib/engine/xp.ts';
+	import { lootLabel } from '#lib/labels.ts';
 	import { store } from '#lib/store.svelte.ts';
 
 	const data = $derived(store.data);
@@ -108,6 +109,7 @@
 			<span><span class="text-xs text-zinc-400">{formatShort(e.date)}</span> {e.label}</span>
 			<span class="shrink-0 text-xs text-zinc-500">
 				{xp ? `+${xp} XP` : ''}
+				{lootLabel(e.loot)}
 				{e.gauge?.motivation ? ` Motiv. ${e.gauge.motivation > 0 ? '+' : ''}${e.gauge.motivation}` : ''}
 				{e.gauge?.inspiration ? ` Insp. ${e.gauge.inspiration > 0 ? '+' : ''}${e.gauge.inspiration}` : ''}
 			</span>
@@ -116,6 +118,23 @@
 		<li class="text-zinc-500">Rien encore : valide une habitude dans Aujourd'hui.</li>
 	{/each}
 </ul>
+
+<h2 class="h2 mb-2">Mode test</h2>
+<div class="card mb-6">
+	<p class="mb-3 text-sm text-zinc-600">
+		Génère des habitudes, des tâches, des campagnes et quatre semaines déjà jouées, dans un espace séparé : tes vraies données ne sont pas touchées. Ensuite tu avances les jours
+		(+1 jour, +1 semaine), tu valides à la main ou en un clic, et tu vois l'XP, les matériaux, l'orbite et les trophées évoluer.
+	</p>
+	<div class="flex flex-wrap gap-2">
+		{#if store.testMode}
+			<ConfirmButton class="btn" label="Régénérer le scénario" confirmLabel="Repartir de zéro ?" onconfirm={() => store.startTestMode(4)} />
+			<button class="btn" onclick={() => store.exitTestMode()}>Quitter le mode test</button>
+		{:else}
+			<ConfirmButton class="btn btn-primary" label="Lancer un mode test (4 semaines)" confirmLabel="Remplacer le test précédent ?" onconfirm={() => store.startTestMode(4)} />
+			{#if store.hasTestData()}<button class="btn" onclick={() => store.resumeTestMode()}>Reprendre le dernier test</button>{/if}
+		{/if}
+	</div>
+</div>
 
 <h2 class="h2 mb-2">Données</h2>
 <div class="card flex flex-wrap gap-2">

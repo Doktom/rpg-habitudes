@@ -1,17 +1,20 @@
 # Carte mentale — RPG Habitudes
 
 Copie en lecture seule de la carte interactive : https://claude.ai/artifact/Bq2ySz5W8oPtYHMQpmxQz9
-La carte fait foi ; ce fichier est régénéré avec `node tools/carte-export.mjs <dossier>` (59 nœuds).
+La carte fait foi ; ce fichier est régénéré avec `node tools/carte-export.mjs <dossier>` (74 nœuds).
 
 - **Échanges** · Module · En place — Pilotage du projet. Ajoute tes demandes sous « Pour Claude » : Claude les lit en début de session, les traite et répond sous « Réponses de Claude ».
   - **Pour Claude** · Question · À explorer — Une demande par nœud : une idée à creuser, un bug, une priorité. Statut « Prévu » = à faire en priorité.
   - **Réponses de Claude** · Mécanique · En place — Comptes rendus de session et réponses aux demandes, les plus récents en haut.
+    - **29/10 (nuit) : univers spatial + mode test** · Mécanique · En place — Fait : tâches détaillées, todo du jour (semaine et mois visibles), butin sur toutes les actions, trophées (19), vaisseau Le Sillage avec orbite de 7 jours, modules, compétences, mode test. / À calibrer : le scénario de test rapporte ~96 Alliage par semaine, j'ai multiplié les coûts par 2,5 pour viser 3 mois pour tout le vaisseau. À confirmer à l'usage. / À toi : le lore (docs/univers.md) est une proposition. Dis-moi ce que tu gardes, changes, ou ajoutes, sous « Pour Claude ». / Pas fait : équipage, événements d'orbite, carte de la galaxie, habillage graphique.
+    - **29/10 (nuit) : catégories + todo list** · Mécanique · En place — Fait : création de catégorie depuis une habitude, nouvel écran « À faire ». Essayé dans le navigateur, en ligne au prochain déploiement. / Pas fait : renommer/archiver une catégorie, choisir la catégorie depuis le Planning. / Dis-moi si la todo list doit aller plus loin (priorités, échéances, sous-tâches).
     - **29/10 (soir) : carte migrée + calibrage** · Mécanique · En place — L'ancienne carte n'était plus accessible depuis ce compte : republiée ici et reconstruite depuis docs/carte-mentale.md (58 nœuds, contenu identique). / Calibrage, à confirmer par ton usage : avec 4 obligations par jour (+5 chacune), la Motivation monte à 100 en 3 jours parfaits et y reste ; un raté (−8) se voit à peine. Pistes : +3 par obligation, ou un retour vers 50 plus fort (20 %). / XP : environ 80 à 150 XP par jour, soit le niveau 10 en 3 mois environ et le niveau 20 en un an et demi environ. Ça me paraît bien. / À toi : note tes retours d'usage ici, sous « Pour Claude ».
     - **29/10 : carte = outil de pilotage** · Mécanique · En place — À partir de maintenant, chaque session commence par lire cette carte (demandes sous « Pour Claude », statuts, nouvelles idées) et se termine par la mise à jour des statuts et un compte rendu ici.
 - **Aujourd'hui** · Module · En place — Écran d'accueil mobile : habitudes par moment, danse, tâches du jour.
   - **Paliers min / normal / excellent** · Mécanique · En place — XP ×0,5 / ×1 / ×1,5. Le minimum compte comme réussi pour la Discipline.
   - **Mode minimum** · Mécanique · En place — Proposé quand Motivation < 30 : n'affiche que les paliers minimum.
   - **Jour de repos** · Mécanique · En place — Neutre pour les trois jauges.
+  - **Todo du jour (semaine et mois visibles)** · Mécanique · En place — Les tâches libres d'aujourd'hui, de la semaine et du mois, les reportées et les échéances arrivées s'affichent dans la journée.
 - **Habitudes & routines** · Module · En place
   - **Obligatoire / bonus** · Mécanique · En place — Bonus : gagne XP et Motivation, ne coûte jamais rien.
   - **Fréquences souples** · Mécanique · En place — Quotidienne, X fois par semaine, ou jours fixes.
@@ -19,6 +22,7 @@ La carte fait foi ; ce fichier est régénéré avec `node tools/carte-export.mj
   - **Mode guidé avec minuteur** · Mécanique · Prévu — V2 : enchaîne les exercices d'une routine.
   - **Programme salle 3x / semaine** · Mécanique · En place — Séances types A / B / C.
     - **Intégration de l'app salle** · Mécanique · Prévu — Recevoir les séances terminées, records = hauts faits. Stack de l'app à préciser.
+  - **Catégories (stats) créables** · Mécanique · En place — Bouton « + Nouvelle catégorie (stat) » dans le formulaire d'une habitude : nom, nom de stat, couleur. À faire : renommer et archiver.
 - **Danse** · Module · En place
   - **Cours fixes hebdo** · Mécanique · En place — Même horaire chaque semaine.
   - **Vacances & annulations** · Mécanique · En place — Cours suspendus sans effet sur les jauges.
@@ -40,10 +44,17 @@ La carte fait foi ; ce fichier est régénéré avec `node tools/carte-export.mj
   - **Arcs mensuels** · Mécanique · Prévu — Thème du mois qui regroupe des quêtes de plusieurs campagnes.
   - **Campagne Trading** · Mécanique · En place — Stratégie → backtest → démo → réel avec un plan. On récompense le processus, jamais le P&L.
   - **Campagne Maison** · Mécanique · En place — Aménagement et déco, une pièce par chapitre, par vagues.
+- **Univers spatial : le Sillage** · Module · En place — Le Sillage orbite autour de Kronos : une orbite = une semaine, un secteur par jour. Lore et tables dans docs/univers.md. Noms provisoires.
+  - **Orbite hebdomadaire (7 secteurs)** · Mécanique · En place — Un secteur s'allume quand les obligations du jour sont faites. L'amarrage au Havre (revue hebdo) verse 1 Alliage par secteur, +2 Cristaux si 7/7.
+  - **Matériaux : Alliage, Cellule, Cristal** · Mécanique · En place — Toute action rapporte de l'XP et du butin selon sa difficulté. Les matériaux ne se perdent jamais, ils se dépensent sur les améliorations.
+  - **Modules du vaisseau** · Mécanique · En place — Réacteur (+XP), Coque (−Motivation perdue), Propulseurs (+butin d'orbite), Antenne (+Inspiration). 5 niveaux chacun, classe du vaisseau selon le total.
+  - **Compétences du pilote** · Mécanique · En place — 1 point par niveau de pilote : Second souffle, Logistique, Endurance, Ingénierie (3 niveaux chacune).
+  - **Trophées (19)** · Mécanique · En place — Premières fois, volumes, séries, orbites, niveaux, campagnes, vaisseau. XP + butin, jamais perdus.
 - **Planning** · Module · En place
   - **Listes souples** · Mécanique · En place — Aujourd'hui, semaine, mois, un jour.
   - **Agenda semaine (glisser-déposer)** · Mécanique · En place
   - **Vue mois** · Mécanique · Prévu
+  - **Écran « À faire » (todo list)** · Mécanique · En place — Ajout rapide, quatre listes, filtre, terminées repliées. Tâche détaillée : note, effort (récompense), échéance, catégorie, sous-tâches.
 - **Revue** · Module · En place
   - **Revue hebdo guidée** · Mécanique · En place — Bilan, 3 questions, 3 priorités. +50 XP, +25 Inspiration.
   - **Revue mensuelle** · Mécanique · Prévu — Point sur chaque campagne, choix de l'arc du mois.
@@ -52,6 +63,7 @@ La carte fait foi ; ce fichier est régénéré avec `node tools/carte-export.mj
   - **PWA installable** · Mécanique · Prévu
   - **Notifications** · Mécanique · Prévu — Rappels d'habitudes, revue du dimanche, alertes douces.
   - **Habillage graphique / avatar** · Mécanique · Prévu — Après la phase sobre.
+  - **Mode test (simulation de semaines)** · Mécanique · En place — Scénario généré (4 semaines), stockage séparé, bandeau : valider tout, +1 jour, +1 semaine, jouer 1 semaine. Depuis l'écran Personnage.
 - **Questions ouvertes** · Question · À explorer
   - **Nom de l'app et des stats** · Question · À explorer
   - **Habitudes de trading détaillées** · Question · À explorer — Lesquelles, quels jours ?
@@ -62,3 +74,6 @@ La carte fait foi ; ce fichier est régénéré avec `node tools/carte-export.mj
   - **Défi de la semaine** · Idée · À explorer — Un défi tiré au sort pendant la revue hebdo (nouvelle figure en danse, séance de plus…), +Inspiration.
   - **Titres de personnage** · Idée · À explorer — Titres débloqués par paliers de stats (ex. « Danseur polyvalent » quand les 3 danses dépassent le niveau 5).
   - **Bonus d'équilibre** · Idée · À explorer — Petit bonus quand aucune stat n'est négligée sur la semaine.
+  - **Équipage (personnages à bonus)** · Idée · À explorer — Des membres d'équipage rencontrés en campagne, chacun avec un bonus.
+  - **Événements d'orbite** · Idée · À explorer — Météorites, éruptions solaires : un défi de la semaine qui change l'orbite. Rejoint « Défi de la semaine ».
+  - **Carte de la galaxie** · Idée · À explorer — Les campagnes deviennent des systèmes à rejoindre. Rejoint « Carte de progression visuelle ».

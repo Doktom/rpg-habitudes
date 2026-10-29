@@ -6,9 +6,20 @@ export function toISO(d: Date): ISODate {
 	return d.toISOString().slice(0, 10);
 }
 
-export function today(): ISODate {
+// Horloge simulée du mode test : quand elle est définie, today() renvoie cette date.
+let clock: ISODate | null = null;
+
+export function setClock(date: ISODate | null) {
+	clock = date;
+}
+
+export function realToday(): ISODate {
 	const now = new Date();
 	return toISO(new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())));
+}
+
+export function today(): ISODate {
+	return clock ?? realToday();
 }
 
 export function parse(date: ISODate): Date {

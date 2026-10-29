@@ -10,6 +10,12 @@ export type HabitKind = 'obligatory' | 'bonus';
 export type HabitForm = 'simple' | 'routine' | 'program';
 export type DanceStyle = 'salsa' | 'bachata' | 'kizomba';
 
+// Univers spatial : matériaux gagnés en agissant, dépensés pour améliorer le vaisseau.
+export type Material = 'metal' | 'energy' | 'crystal';
+export type Loot = Partial<Record<Material, number>>;
+export type ModuleId = 'reactor' | 'hull' | 'thrusters' | 'antenna';
+export type SkillId = 'recovery' | 'logistics' | 'endurance' | 'engineering';
+
 export type Frequency =
 	| { type: 'daily' }
 	| { type: 'weekly'; times: number } // X fois par semaine, jours libres
@@ -133,10 +139,20 @@ export interface Campaign {
 
 export type TaskList = 'today' | 'week' | 'month' | 'someday';
 
+export interface Subtask {
+	id: string;
+	title: string;
+	done?: boolean;
+}
+
 export interface Task {
 	id: string;
 	title: string;
 	list: TaskList;
+	note?: string;
+	effort?: Difficulty; // détermine l'XP et le butin ; « facile » par défaut
+	due?: ISODate; // échéance
+	subtasks?: Subtask[];
 	date?: ISODate;
 	start?: Time;
 	end?: Time;
@@ -168,6 +184,7 @@ export interface ProgressEvent {
 	label: string;
 	xp?: { domainId: string; amount: number }[];
 	gauge?: Partial<Record<Gauge, number>>;
+	loot?: Loot; // matériaux gagnés (positifs) ou dépensés (négatifs)
 	campaignId?: string; // progression sur une campagne (pour l'Inspiration)
 }
 
@@ -187,4 +204,8 @@ export interface AppData {
 	restDays: ISODate[];
 	minimumModeDays: ISODate[];
 	lastProcessedDay?: ISODate;
+	ship: { modules: Partial<Record<ModuleId, number>> }; // niveaux des modules du vaisseau
+	skills: Partial<Record<SkillId, number>>; // niveaux des compétences du pilote
+	trophies: Record<string, ISODate>; // trophée → date de déblocage
+	testClock?: ISODate; // mode test : date simulée
 }
