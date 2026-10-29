@@ -25,8 +25,8 @@ export const LOOT_REWARDS: Record<string, Loot> = {
 	campaign: { crystal: 10 },
 	weeklyReview: { energy: 3 },
 	monthlyReview: { energy: 5, crystal: 1 },
-	orbitSector: { metal: 1 }, // par secteur de l'orbite allumé, versé à l'amarrage (revue hebdo)
-	orbitPerfect: { crystal: 2 } // 7 secteurs sur 7
+	orbitSector: { metal: 4 }, // par secteur allumé (un secteur à moitié compte pour 0,5), versé à l'amarrage (revue hebdo)
+	orbitPerfect: { crystal: 3 } // 7 secteurs sur 7
 };
 
 // Bonus des modules du vaisseau et des compétences du pilote, par niveau.
@@ -35,14 +35,15 @@ export const EFFECTS = {
 	hullShield: 0.1, // Coque : −10 % de Motivation perdue par raté
 	antennaInspiration: 0.2, // Antenne : +20 % d'Inspiration gagnée
 	thrustersOrbit: 0.25, // Propulseurs : +25 % de butin d'orbite
-	recoveryPull: 0.05, // Second souffle : retour vers 50 plus rapide
-	logisticsTask: 0.25, // Logistique : +25 % d'XP et de butin sur les tâches
-	enduranceMin: 0.1, // Endurance : le palier minimum vaut 0,1 de plus
-	engineeringCost: 0.08 // Ingénierie : −8 % sur le coût des améliorations
+	recoveryPull: 0.03, // Second souffle : retour vers 50 plus rapide
+	logisticsTask: 0.15, // Logistique : +15 % d'XP et de butin sur les tâches
+	enduranceMin: 0.06, // Endurance : le palier minimum vaut 0,06 de plus
+	engineeringCost: 0.05 // Ingénierie : −5 % sur le coût des améliorations
 } as const;
 
 export const MODULE_MAX_LEVEL = 5;
-export const SKILL_MAX_LEVEL = 3;
+// 5 niveaux × 4 compétences = 20 points, soit le niveau 21 du pilote : les points servent longtemps.
+export const SKILL_MAX_LEVEL = 5;
 
 // XP pour passer du niveau n au niveau n+1 = LEVEL_BASE × n^LEVEL_EXPONENT
 export const LEVEL_BASE = 100;
@@ -53,12 +54,12 @@ export const GAUGES = {
 	motivationStart: 50,
 	inspirationStart: 50,
 	motivation: {
-		obligatoryDone: 5,
-		bonusDone: 3,
-		questDone: 10,
+		obligatoryDone: 3,
+		bonusDone: 2,
+		questDone: 6,
 		obligatoryMissed: -8,
 		dailyPullToward: 50,
-		dailyPullRatio: 0.1 // part de l'écart à 50 rattrapée chaque jour
+		dailyPullRatio: 0.15 // part de l'écart à 50 rattrapée chaque jour
 	},
 	inspiration: {
 		weeklyReview: 25,

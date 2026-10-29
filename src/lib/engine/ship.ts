@@ -50,7 +50,7 @@ export function upgradeCost(data: AppData, id: ModuleId): Loot | null {
 	const next = moduleLevel(data, id) + 1;
 	if (next > MODULE_MAX_LEVEL) return null;
 	const def = SHIP_MODULES.find((m) => m.id === id)!;
-	const base: Loot = { metal: 20 * next, energy: 8 * next, crystal: next >= 2 ? (next - 1) * 2 : 0 };
+	const base: Loot = { metal: 20 * next, energy: 8 * next, crystal: next >= 2 ? Math.ceil(1.5 * (next - 1)) : 0 };
 	const out: Loot = {};
 	for (const m of MATERIAL_IDS) {
 		const v = Math.ceil((base[m] ?? 0) * def.costFactor * costFactor(data));
@@ -95,17 +95,19 @@ export function orbit(data: AppData, dateInWeek: ISODate, asOf: ISODate): Sector
 		else if (isRestDay(data, date)) state = 'rest';
 		else if (expected === 0 || done === expected) state = 'lit';
 		else if (date === asOf) state = 'today';
-		else state = done > 0 ? 'partial' : 'missed';
+		else state = done / expected >= 0.5 ? 'partial' : 'missed';
 		return { date, name: s.name, state, done, expected };
 	});
 }
 
 export const sectorsLit = (sectors: Sector[]) => sectors.filter((s) => s.state === 'lit' || s.state === 'rest').length;
 
-// Butin versé à l'amarrage (revue hebdo) : un peu par secteur allumé, un bonus si l'orbite est parfaite.
+// Un secteur à moitié fait (au moins la moitié des obligations) compte pour la moitié d'un secteur allumé.
+export const sectorPoints = (sectors: Sector[]) => sectorsLit(sectors) + 0.5 * sectors.filter((s) => s.state === 'partial').length;
+
+// Butin versé à l'amarrage (revue hebdo) : par secteur allumé, un bonus si l'orbite est parfaite.
 export function orbitReward(data: AppData, sectors: Sector[]): Loot {
-	const lit = sectorsLit(sectors);
-	let loot = scaleLoot(LOOT_REWARDS.orbitSector, lit * orbitBonus(data));
-	if (lit === 7) loot = addLoot(loot, scaleLoot(LOOT_REWARDS.orbitPerfect, orbitBonus(data)));
+	let loot = scaleLoot(LOOT_REWARDS.orbitSector, sectorPoints(sectors) * orbitBonus(data));
+	if (sectorsLit(sectors) === 7) loot = addLoot(loot, scaleLoot(LOOT_REWARDS.orbitPerfect, orbitBonus(data)));
 	return loot;
 }

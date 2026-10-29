@@ -80,7 +80,7 @@ Trois jauges de 0 à 100 remplacent les points de vie : elles modulent la progre
 | Jauge | Mesure | Calcul | Effet |
 | --- | --- | --- | --- |
 | Discipline | Régularité de fond | Taux de réussite des habitudes obligatoires sur 28 jours glissants, les jours récents pèsent plus. Un palier minimum compte comme réussi. | Multiplicateur d'XP ×1 à ×2 |
-| Motivation | Énergie du moment | +5 par obligatoire validée, +10 par étape de quête, +3 par bonus ; −8 par obligatoire ratée. Revient doucement vers 50 chaque jour. | Sous 30 : l'app propose le mode minimum |
+| Motivation | Énergie du moment | +3 par obligatoire validée, +6 par étape de quête, +2 par bonus ; −8 par obligatoire ratée. Revient vers 50 de 15 % de l'écart chaque jour. | Sous 30 : l'app propose le mode minimum |
 | Inspiration | Sens et nouveauté | +25 revue hebdo, +15 chapitre, +30 campagne, +10 nouveau défi ; −2 par jour sans progrès sur une campagne active. | À 80 et plus : « Élan » activable |
 
 - **Mode minimum** : pour la journée, chaque habitude affiche seulement son palier minimum. Il préserve la Discipline.

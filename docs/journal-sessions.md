@@ -2,6 +2,29 @@
 
 Entrées les plus récentes en haut.
 
+## 2026-10-29 (nuit, suite) — Calibrage avec le mode test
+
+**Méthode** : scénario de 12 semaines généré par le mode test (utilisateur simulé à ~75 % de réussite), mesures semaine par semaine (XP, matériaux par source, niveaux, trophées, jauge Motivation), puis rejeu des mêmes journées avec des réglages candidats pour la Motivation.
+
+**Constats**
+
+- XP : ~1 200 par semaine, niveau 10 vers la semaine 6 (en partie grâce aux quêtes du scénario), cohérent avec le cahier ; rien à changer.
+- Matériaux : environ 90 Alliages, 31 Cellules, 4 à 6 Cristaux par semaine ; les coûts de départ donnaient un vaisseau complet en ~13 semaines en Alliages, mais 19 en Cristaux.
+- Motivation : moyenne 83, saturée (≥ 95) un jour sur quatre, sous 30 seulement 2 jours sur 87 : la jauge ne servait presque à rien.
+- Orbite : en moyenne 2 secteurs allumés et 4 à moitié par semaine ; l'amarrage rapportait 1 à 7 Alliages, trop peu pour être la boucle centrale.
+- Les compétences (3 niveaux × 4) s'épuisaient au niveau 13 du pilote.
+
+**Réglages**
+
+- Motivation : +3 obligatoire (était +5), +2 bonus (+3), +6 quête (+10), retour vers 50 de 15 % (10 %). Résultat : moyenne 70, aucun jour saturé, 5 % des jours sous 30.
+- Orbite : un secteur à moitié fait (≥ 50 % des obligations) compte pour un demi-secteur ; 4 Alliages par secteur (1), 3 Cristaux pour l'orbite parfaite (2). Une semaine rapporte maintenant 8 à 26 Alliages.
+- Cristaux : coût ⌈1,5(n−1)⌉ au lieu de 2(n−1), pour que les trois ressources arrivent ensemble.
+- Compétences : 5 niveaux au lieu de 3 (20 points, niveau 21 du pilote), effets par niveau réduits en conséquence.
+
+**Tests** : 21 au vert, types au vert.
+
+**À vérifier à l'usage** : le simulateur joue plus de tâches qu'un utilisateur moyen ; la Motivation de départ (50) et la difficulté d'allumer un secteur sont à confirmer en vrai.
+
 ## 2026-10-29 (nuit, suite) — Univers spatial, récompenses, mode test
 
 **Demandes** : détailler les tâches ; rendre visibles dans la todo du jour celles de la semaine et du mois ; faire récompenser toutes les tâches ; mécanique de trophées et de récompenses ; mode test avec simulation sur plusieurs semaines ; univers futuriste spatial avec un vaisseau qui orbite en 7 jours, avec XP, matériaux et compétences pour le faire évoluer.

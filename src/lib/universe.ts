@@ -1,5 +1,5 @@
 // Univers et lore : tout ce qui est écrit en dur côté « fiction ». Noms provisoires, voir docs/univers.md.
-import { EFFECTS } from './config';
+import { EFFECTS, GAUGES, TIER_FACTOR } from './config';
 import type { Material, ModuleId, SkillId } from './types';
 
 export const SHIP_NAME = 'Le Sillage';
@@ -85,7 +85,7 @@ export const SKILLS: SkillDef[] = [
 		id: 'recovery',
 		name: 'Second souffle',
 		lore: 'Le pilote revient plus vite à son niveau de base.',
-		effect: (l) => `Motivation : retour vers 50 de ${pct(0.1 + l * EFFECTS.recoveryPull)} par jour`
+		effect: (l) => `Motivation : retour vers 50 de ${pct(GAUGES.motivation.dailyPullRatio + l * EFFECTS.recoveryPull)} par jour`
 	},
 	{
 		id: 'logistics',
@@ -97,7 +97,7 @@ export const SKILLS: SkillDef[] = [
 		id: 'endurance',
 		name: 'Endurance',
 		lore: "Même un petit effort compte vraiment.",
-		effect: (l) => `Palier minimum : ×${(0.5 + l * EFFECTS.enduranceMin).toFixed(1)} d'XP`
+		effect: (l) => `Palier minimum : ×${(TIER_FACTOR.min + l * EFFECTS.enduranceMin).toFixed(2)} d'XP`
 	},
 	{
 		id: 'engineering',

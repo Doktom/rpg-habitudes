@@ -1,11 +1,12 @@
 # Carte mentale — RPG Habitudes
 
 Copie en lecture seule de la carte interactive : https://claude.ai/artifact/Bq2ySz5W8oPtYHMQpmxQz9
-La carte fait foi ; ce fichier est régénéré avec `node tools/carte-export.mjs <dossier>` (74 nœuds).
+La carte fait foi ; ce fichier est régénéré avec `node tools/carte-export.mjs <dossier>` (75 nœuds).
 
 - **Échanges** · Module · En place — Pilotage du projet. Ajoute tes demandes sous « Pour Claude » : Claude les lit en début de session, les traite et répond sous « Réponses de Claude ».
   - **Pour Claude** · Question · À explorer — Une demande par nœud : une idée à creuser, un bug, une priorité. Statut « Prévu » = à faire en priorité.
   - **Réponses de Claude** · Mécanique · En place — Comptes rendus de session et réponses aux demandes, les plus récents en haut.
+    - **29/10 (nuit) : calibrage mesuré** · Mécanique · En place — Simulation de 12 semaines. Corrigé : Motivation trop haute (moyenne 83, saturée 1 jour sur 4) → moyenne 70 ; orbite trop peu rentable → demi-secteurs et 4 Alliages par secteur ; Cristaux trop chers → coût réduit ; compétences en 5 niveaux. / OK tel quel : l'XP (niveau 10 vers 6 à 10 semaines) et les Alliages/Cellules (vaisseau complet en ~13 semaines). / À confirmer en vrai : le simulateur joue plus de tâches qu'un utilisateur moyen. Note ton ressenti sous « Pour Claude » après quelques jours.
     - **29/10 (nuit) : univers spatial + mode test** · Mécanique · En place — Fait : tâches détaillées, todo du jour (semaine et mois visibles), butin sur toutes les actions, trophées (19), vaisseau Le Sillage avec orbite de 7 jours, modules, compétences, mode test. / À calibrer : le scénario de test rapporte ~96 Alliage par semaine, j'ai multiplié les coûts par 2,5 pour viser 3 mois pour tout le vaisseau. À confirmer à l'usage. / À toi : le lore (docs/univers.md) est une proposition. Dis-moi ce que tu gardes, changes, ou ajoutes, sous « Pour Claude ». / Pas fait : équipage, événements d'orbite, carte de la galaxie, habillage graphique.
     - **29/10 (nuit) : catégories + todo list** · Mécanique · En place — Fait : création de catégorie depuis une habitude, nouvel écran « À faire ». Essayé dans le navigateur, en ligne au prochain déploiement. / Pas fait : renommer/archiver une catégorie, choisir la catégorie depuis le Planning. / Dis-moi si la todo list doit aller plus loin (priorités, échéances, sous-tâches).
     - **29/10 (soir) : carte migrée + calibrage** · Mécanique · En place — L'ancienne carte n'était plus accessible depuis ce compte : republiée ici et reconstruite depuis docs/carte-mentale.md (58 nœuds, contenu identique). / Calibrage, à confirmer par ton usage : avec 4 obligations par jour (+5 chacune), la Motivation monte à 100 en 3 jours parfaits et y reste ; un raté (−8) se voit à peine. Pistes : +3 par obligation, ou un retour vers 50 plus fort (20 %). / XP : environ 80 à 150 XP par jour, soit le niveau 10 en 3 mois environ et le niveau 20 en un an et demi environ. Ça me paraît bien. / À toi : note tes retours d'usage ici, sous « Pour Claude ».
@@ -32,7 +33,7 @@ La carte fait foi ; ce fichier est régénéré avec `node tools/carte-export.mj
   - **XP & niveaux** · Mécanique · En place — XP = base × palier × (1 + Discipline/100). Niveau n→n+1 = 100 × n^1,5.
   - **Stats & sous-compétences** · Mécanique · En place — Rythme, Force, Souplesse, Stratégie, Créativité, Sérénité (noms provisoires).
   - **Jauge Discipline** · Mécanique · En place — Réussite pondérée sur 28 jours. Multiplicateur d'XP ×1 à ×2.
-  - **Jauge Motivation** · Mécanique · En place — +5 obligatoire, +3 bonus, +10 quête, −8 raté. Revient vers 50.
+  - **Jauge Motivation** · Mécanique · En place — +3 obligatoire, +2 bonus, +6 quête, −8 raté. Revient vers 50 de 15 % par jour. Calibré le 29/10 : moyenne 70 sur la simulation, plus de saturation.
   - **Jauge Inspiration** · Mécanique · En place — +25 revue, +15 chapitre, +30 campagne ; −2/jour par campagne au point mort.
     - **Élan** · Mécanique · Prévu — À 80 d'Inspiration : dépense 50 pour doubler l'XP d'une quête 24 h ou débloquer un défi.
   - **Hauts faits** · Mécanique · Prévu — Campagne terminée, records, séries longues.
@@ -45,10 +46,10 @@ La carte fait foi ; ce fichier est régénéré avec `node tools/carte-export.mj
   - **Campagne Trading** · Mécanique · En place — Stratégie → backtest → démo → réel avec un plan. On récompense le processus, jamais le P&L.
   - **Campagne Maison** · Mécanique · En place — Aménagement et déco, une pièce par chapitre, par vagues.
 - **Univers spatial : le Sillage** · Module · En place — Le Sillage orbite autour de Kronos : une orbite = une semaine, un secteur par jour. Lore et tables dans docs/univers.md. Noms provisoires.
-  - **Orbite hebdomadaire (7 secteurs)** · Mécanique · En place — Un secteur s'allume quand les obligations du jour sont faites. L'amarrage au Havre (revue hebdo) verse 1 Alliage par secteur, +2 Cristaux si 7/7.
+  - **Orbite hebdomadaire (7 secteurs)** · Mécanique · En place — Un secteur s'allume quand les obligations du jour sont faites ; à moitié fait (≥ 50 %), il compte pour un demi-secteur. L'amarrage (revue hebdo) verse 4 Alliages par secteur, +3 Cristaux si 7/7.
   - **Matériaux : Alliage, Cellule, Cristal** · Mécanique · En place — Toute action rapporte de l'XP et du butin selon sa difficulté. Les matériaux ne se perdent jamais, ils se dépensent sur les améliorations.
   - **Modules du vaisseau** · Mécanique · En place — Réacteur (+XP), Coque (−Motivation perdue), Propulseurs (+butin d'orbite), Antenne (+Inspiration). 5 niveaux chacun, classe du vaisseau selon le total.
-  - **Compétences du pilote** · Mécanique · En place — 1 point par niveau de pilote : Second souffle, Logistique, Endurance, Ingénierie (3 niveaux chacune).
+  - **Compétences du pilote** · Mécanique · En place — 1 point par niveau de pilote (20 points = niveau 21) : Second souffle, Logistique, Endurance, Ingénierie, 5 niveaux chacune.
   - **Trophées (19)** · Mécanique · En place — Premières fois, volumes, séries, orbites, niveaux, campagnes, vaisseau. XP + butin, jamais perdus.
 - **Planning** · Module · En place
   - **Listes souples** · Mécanique · En place — Aujourd'hui, semaine, mois, un jour.

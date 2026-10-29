@@ -53,8 +53,8 @@
 <div class="card mb-5">
 	<Orbit {sectors} current={today()} />
 	<p class="mt-3 text-xs text-zinc-500">
-		Un secteur s'allume quand toutes les obligations du jour sont faites (un jour de repos compte aussi). {sectorsLit(sectors)}/7 pour l'instant : l'amarrage au Havre (revue hebdo)
-		verserait <strong class="text-zinc-700">{lootLabel(orbitReward(data, sectors)) || 'rien encore'}</strong>, avec un bonus si les sept sont allumés.
+		Un secteur s'allume quand toutes les obligations du jour sont faites (un jour de repos compte aussi) ; à moitié fait, il compte pour un demi-secteur. {sectorsLit(sectors)}/7 allumés pour l'instant :
+		l'amarrage au Havre (revue hebdo) verserait <strong class="text-zinc-700">{lootLabel(orbitReward(data, sectors)) || 'rien encore'}</strong>, avec un bonus si les sept sont allumés.
 	</p>
 </div>
 

@@ -5,7 +5,7 @@ import type { AppData, ISODate } from '../types';
 import { missPenalty, tierFactor } from './effects';
 import { perfectStreak } from './progress';
 import { tasksForDay } from './schedule';
-import { canAfford, lootFor, materials, negate, orbit, orbitReward, sectorsLit, skillPoints, upgradeCost } from './ship';
+import { canAfford, lootFor, materials, negate, orbit, orbitReward, sectorPoints, sectorsLit, skillPoints, upgradeCost } from './ship';
 import { newTrophies } from './trophies';
 
 const START = '2026-10-05'; // un lundi
@@ -45,9 +45,9 @@ describe('vaisseau', () => {
 		const d = fresh();
 		expect(upgradeCost(d, 'reactor')).toEqual({ metal: 20, energy: 8 });
 		d.ship.modules.reactor = 2;
-		expect(upgradeCost(d, 'reactor')).toEqual({ metal: 60, energy: 24, crystal: 4 });
+		expect(upgradeCost(d, 'reactor')).toEqual({ metal: 60, energy: 24, crystal: 3 });
 		d.skills.engineering = 2;
-		expect(upgradeCost(d, 'reactor')).toEqual({ metal: 51, energy: 21, crystal: 4 });
+		expect(upgradeCost(d, 'reactor')).toEqual({ metal: 54, energy: 22, crystal: 3 }); // −10 %
 		d.ship.modules.reactor = 5;
 		expect(upgradeCost(d, 'reactor')).toBeNull();
 	});
@@ -58,7 +58,7 @@ describe('vaisseau', () => {
 		d.ship.modules.hull = 5;
 		expect(missPenalty(d)).toBe(-4);
 		expect(tierFactor(d, 'min')).toBe(0.5);
-		d.skills.endurance = 3;
+		d.skills.endurance = 5;
 		expect(tierFactor(d, 'min')).toBeCloseTo(0.8);
 		expect(tierFactor(d, 'excellent')).toBe(1.5);
 	});
@@ -90,9 +90,20 @@ describe('orbite', () => {
 		const all = orbit(d, START, addDays(START, 6));
 		// Samedi et dimanche : seules les habitudes quotidiennes comptent, déjà validées ci-dessus.
 		expect(sectorsLit(all)).toBe(7);
-		expect(orbitReward(d, all)).toEqual({ metal: 7, crystal: 2 });
+		expect(orbitReward(d, all)).toEqual({ metal: 28, crystal: 3 });
 		d.ship.modules.thrusters = 4; // +100 %
-		expect(orbitReward(d, all)).toEqual({ metal: 14, crystal: 4 });
+		expect(orbitReward(d, all)).toEqual({ metal: 56, crystal: 6 });
+	});
+
+	it('compte un secteur à moitié fait (au moins la moitié des obligations) pour un demi-secteur', () => {
+		const d = fresh();
+		for (const i of [0, 1, 2]) logDay(d, addDays(START, i)); // 3 allumés
+		for (const id of ['reveil', 'kine-matin']) d.habitLogs.push({ id: id + 'x', habitId: id, date: addDays(START, 3), tier: 'normal' }); // 2 sur 4
+		d.habitLogs.push({ id: 'ykine', habitId: 'kine-matin', date: addDays(START, 4), tier: 'normal' }); // 1 sur 4
+		const sectors = orbit(d, START, addDays(START, 6));
+		expect(sectors.slice(3, 5).map((s) => s.state)).toEqual(['partial', 'missed']);
+		expect(sectorPoints(sectors)).toBe(3.5); // 3 allumés + 1 à moitié ; le reste est manqué
+		expect(orbitReward(d, sectors)).toEqual({ metal: 14 });
 	});
 });
 

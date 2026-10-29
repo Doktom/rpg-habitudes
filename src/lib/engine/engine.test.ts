@@ -92,10 +92,10 @@ describe('jauges', () => {
 	it('un jour raté fait baisser la Motivation, sans perte d’XP', () => {
 		const data = fresh();
 		const e = closeDay(data, START)!;
-		expect(e.gauge!.motivation).toBe(4 * -8 + 3); // 4 ratés puis rappel vers 50
+		expect(e.gauge!.motivation).toBe(4 * -8 + 5); // 4 ratés puis rappel de 15 % vers 50
 		expect(e.xp).toBeUndefined();
 		data.events.push(e);
-		expect(gaugeValue(data, 'motivation')).toBe(21);
+		expect(gaugeValue(data, 'motivation')).toBe(23);
 		expect(xpByDomain(data)['sport'] ?? 0).toBe(0);
 	});
 
