@@ -117,6 +117,18 @@ Trois objets récurrents couvrent tous les cas : l'habitude simple, la routine (
 | Cours ou soirée de danse | Habitude taguée Salsa / Bachata / Kizomba | Obligatoire ou bonus | Selon planning | Créneau fixe | Rythme |
 | Analyse / journal de trading | Habitude | Obligatoire | Jours de marché | Libre | Stratégie |
 
+**Paramétrage danse**
+
+Un écran dédié gère les cours réguliers, les vacances de l'école et les soirées, qui alimentent ensuite l'agenda et l'écran Aujourd'hui.
+
+- **Cours fixes** : danse (Salsa, Bachata ou Kizomba), jour de la semaine, heure, durée, lieu, obligatoire ou bonus. Ils se répètent chaque semaine.
+- **Périodes de vacances** : dates de début et de fin pendant lesquelles les cours fixes sont suspendus, sans effet sur les jauges.
+- **Cours annulé** : une séance précise peut être annulée sans toucher au cours récurrent.
+- **Soirées ponctuelles** : saisies longtemps à l'avance (date, heure, lieu, danses concernées, note). Elles comptent comme bonus.
+- Valider un cours ou une soirée donne l'XP à la sous-compétence de la danse concernée.
+
+Le contenu des routines (kiné, réveil musculaire) sera saisi et enrichi au fil de l'eau.
+
 ## Campagnes, chapitres, quêtes et boss
 
 Les projets au long cours sont des **campagnes** : un fil rouge découpé en chapitres, quêtes et tâches, affiché comme un parcours.
@@ -240,6 +252,8 @@ Les formules d'XP et de jauges vivent dans un module partagé et testé, avec le
 
 Le MVP vise un usage quotidien réel en 4 à 6 semaines de dev ; le reste s'ajoute une fois les formules calibrées.
 
+**V0 prototype (29 octobre 2026)** : une première version tourne déjà, avec les données stockées dans le navigateur (export/import JSON) en attendant Supabase. Elle couvre les écrans Aujourd'hui, Planning (listes + agenda semaine avec glisser-déposer), Campagnes, Personnage, Habitudes (routines versionnées), Danse (cours fixes, vacances, soirées) et Revue hebdo, ainsi que le moteur XP / niveaux / jauges. Pas encore : comptes et synchro, PWA et notifications, vue mois, revue mensuelle.
+
 **MVP**
 
 - Auth, profil, domaines et sous-compétences
@@ -270,10 +284,10 @@ Le MVP vise un usage quotidien réel en 4 à 6 semaines de dev ; le reste s'ajou
 ## Questions ouvertes
 
 - [ ] Nom de l'app et noms définitifs des stats
-- [ ] Liste précise des exercices kiné matin et soir, et des renfos à ajouter
-- [ ] Contenu de la routine réveil musculaire
-- [ ] Cours de danse : jours et horaires fixes ? Lesquels sont obligatoires, lesquels bonus ?
+- [x] Liste précise des exercices kiné matin et soir, et des renfos à ajouter
+- [x] Contenu de la routine réveil musculaire
+- [x] Cours de danse : jours et horaires fixes ? Lesquels sont obligatoires, lesquels bonus ?
 - [ ] Trading : quelles habitudes de processus, et quels jours ?
 - [ ] Chapitres réels des campagnes Trading et Maison
 - [ ] Stack de l'app salle, pour préparer l'intégration
-- [ ] Validation des valeurs d'XP et de jauges après 2-3 semaines d'usage
+- [x] Validation des valeurs d'XP et de jauges après 2-3 semaines d'usage

@@ -21,6 +21,13 @@ Webapp perso de suivi d'habitudes, planification hebdo/mensuelle et projets au l
 - Trading : on récompense le processus, jamais le P&L.
 - Visuel sobre d'abord, graphisme ajouté plus tard sans refonte.
 
-## Stack prévue
+## Stack
 
-SvelteKit + TypeScript, Tailwind, Supabase (Postgres, Auth, RLS, Edge Functions), PWA avec Web Push. Formules d'XP et de jauges dans un module partagé testé, constantes dans un fichier de config.
+- En place (V0) : SvelteKit 3 (Svelte 5, runes), TypeScript, Tailwind 4, Vitest, adapter-static en SPA. Données en localStorage via `src/lib/store.svelte.ts`.
+- Prévu : Supabase (Postgres, Auth, RLS, Edge Functions), PWA avec Web Push.
+- SvelteKit 3 : pas de `svelte.config.js`, la config passe par `sveltekit({...})` dans `vite.config.ts`. Imports internes avec `#lib/...` et l'extension explicite (`#lib/dates.ts`, `#lib/store.svelte.ts`).
+- Les règles de jeu vivent dans `src/lib/engine/` (fonctions pures, testées) et les constantes dans `src/lib/config.ts`. XP et jauges sont recalculées depuis le journal `events` : toute action ajoute ou retire des événements, jamais de compteur modifié directement.
+
+## Commandes
+
+`npm run dev` · `npm test` · `npm run check` · `npm run build`
