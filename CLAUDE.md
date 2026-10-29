@@ -2,6 +2,24 @@
 
 Webapp perso de suivi d'habitudes, planification hebdo/mensuelle et projets au long cours, avec une couche RPG (stats, XP, jauges Discipline / Motivation / Inspiration, campagnes). Langue du projet : français.
 
+## Démarrer une session
+
+1. Lire l'entrée la plus récente de `docs/journal-sessions.md` (état, décisions, prochaine étape), puis `docs/cahier-des-charges.md`.
+2. `npm install` puis `npm test` (10 tests attendus au vert) et `npm run dev`.
+3. Si le doc partagé Claude Docs n'est pas accessible, `docs/cahier-des-charges.md` fait foi.
+
+**État au 29/10/2026** : V0 en ligne (voir « En ligne »), données en localStorage, pas encore de comptes.
+
+**Prochaines étapes, par ordre de priorité**
+
+1. Retours d'usage réel de la V0 (corrections, calibrage des valeurs d'XP et de jauges dans `src/lib/config.ts`).
+2. Supabase : auth + tables du modèle de données, en remplacement de `load`/`persist` dans `store.svelte.ts` ; import du JSON exporté depuis la V0.
+3. PWA installable + notifications (rappels d'habitudes, revue du dimanche).
+4. Vue mois du planning, revue mensuelle et arcs.
+5. V2 : Élan, hauts faits, mode guidé des routines avec minuteur, carte de progression des campagnes, intégration de l'app salle.
+
+Questions encore ouvertes : nom de l'app et des stats, habitudes de trading détaillées, chapitres réels des campagnes Trading et Maison, stack de l'app salle.
+
 ## Documents de référence
 
 - `docs/cahier-des-charges.md` : cahier des charges, source de vérité du produit.
@@ -33,6 +51,8 @@ Webapp perso de suivi d'habitudes, planification hebdo/mensuelle et projets au l
 ## Commandes
 
 `npm run dev` · `npm test` · `npm run check` · `npm run build` · `npm run build:artifact`
+
+Sous Windows avec Git Bash, tester le build GitHub Pages avec `MSYS_NO_PATHCONV=1 BASE_PATH=/rpg-habitudes npm run build` (sinon le chemin est converti en chemin Windows).
 
 ## En ligne
 
